@@ -46,9 +46,9 @@ export default function Evento() {
       const heading = headingRef.current
       if (heading) {
         const split = new SplitType(heading, { types: 'chars' })
-        gsap.set(split.chars, { opacity: 0, y: 60 })
+        gsap.set(split.chars, { opacity: 0, y: 40 })
         gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.8, stagger: 0.03, ease: 'power3.out',
+          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
           scrollTrigger: { trigger: heading, start: 'top 85%', once: true },
         })
       }
@@ -88,10 +88,10 @@ export default function Evento() {
           <ScrollReveal from="left">
             <div className="grid grid-cols-2 gap-4">
               <div className="overflow-hidden rounded-2xl">
-                <img src={foto8} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-1000" />
+                <img src={foto8} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="overflow-hidden rounded-2xl mt-8">
-                <img src={foto5} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-1000" />
+                <img src={foto5} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </ScrollReveal>

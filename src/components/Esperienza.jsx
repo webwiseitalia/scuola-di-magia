@@ -32,18 +32,18 @@ export default function Esperienza() {
       const heading = headingRef.current
       if (heading) {
         const split = new SplitType(heading, { types: 'chars' })
-        gsap.set(split.chars, { opacity: 0, y: 60 })
+        gsap.set(split.chars, { opacity: 0, y: 40 })
         gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.8, stagger: 0.03, ease: 'power3.out',
+          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
           scrollTrigger: { trigger: heading, start: 'top 85%', once: true },
         })
       }
 
       gsap.utils.toArray('.act-card').forEach((card, i) => {
         gsap.fromTo(card,
-          { opacity: 0, y: 40 },
+          { opacity: 0, y: 25 },
           {
-            opacity: 1, y: 0, duration: 0.7, delay: (i % 3) * 0.1, ease: 'power3.out',
+            opacity: 1, y: 0, duration: 0.45, delay: (i % 3) * 0.06, ease: 'power3.out',
             scrollTrigger: { trigger: card, start: 'top 88%', once: true },
           }
         )
@@ -94,7 +94,7 @@ export default function Esperienza() {
 
             <ScrollReveal from="right" delay={0.15}>
               <div className="overflow-hidden rounded-2xl">
-                <img src={foto9} alt="" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-1000" />
+                <img src={foto9} alt="" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </ScrollReveal>
           </div>
@@ -108,7 +108,7 @@ export default function Esperienza() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {activities.map((act) => (
-              <div key={act.title} className="act-card group p-7 sm:p-8 transition-all duration-500 rounded-xl" style={{
+              <div key={act.title} className="act-card group p-7 sm:p-8 transition-all duration-300 rounded-xl" style={{
                 opacity: 0,
                 background: 'rgba(237,224,200,0.03)',
                 border: '1px solid rgba(212,168,67,0.08)',
@@ -141,7 +141,7 @@ export default function Esperienza() {
             ].map((photo, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
                 <div className="overflow-hidden shrink-0" style={{ width: photo.w, marginTop: photo.mt, borderRadius: photo.radius }}>
-                  <img src={photo.src} alt="" className="w-full object-cover hover:scale-105 transition-transform duration-1000" style={{ aspectRatio: photo.aspect }} loading="lazy" />
+                  <img src={photo.src} alt="" className="w-full object-cover hover:scale-105 transition-transform duration-500" style={{ aspectRatio: photo.aspect }} loading="lazy" />
                 </div>
               </ScrollReveal>
             ))}
@@ -169,7 +169,7 @@ export default function Esperienza() {
                       transition: 'all 0.3s',
                     }}>
                       {year}
-                      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
                         boxShadow: '0 0 25px rgba(212,168,67,0.2)',
                       }} />
                     </div>

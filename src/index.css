@@ -157,7 +157,7 @@
     border-radius: 100px;
     position: relative;
     overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-magic::before {
     content: '';
@@ -166,7 +166,7 @@
     border-radius: inherit;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     transform: translateX(-100%);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-magic:hover {
     box-shadow:
@@ -196,7 +196,7 @@
     border-radius: 100px;
     position: relative;
     overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-ghost::before {
     content: '';
@@ -207,7 +207,7 @@
     height: 0%;
     border-radius: inherit;
     background: rgba(212, 168, 67, 0.08);
-    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-ghost:hover {
     border-color: rgba(212, 168, 67, 0.6);
@@ -420,7 +420,7 @@
 }
 
 .btn-magic {
-  animation: spellGlow 4s ease-in-out infinite;
+  animation: spellGlow 2.5s ease-in-out infinite;
 }
 
 /* Mysterious fog drift */
@@ -452,7 +452,7 @@
   width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.6), rgba(255, 220, 100, 0.8), rgba(212, 168, 67, 0.6), transparent);
-  animation: cardShimmer 4s ease-in-out infinite;
+  animation: cardShimmer 2.5s ease-in-out infinite;
   z-index: 2;
 }
 
@@ -464,7 +464,7 @@
   width: 100%;
   height: 1px;
   background: linear-gradient(270deg, transparent, rgba(212, 168, 67, 0.4), rgba(255, 220, 100, 0.6), rgba(212, 168, 67, 0.4), transparent);
-  animation: cardShimmer 4s ease-in-out infinite 2s;
+  animation: cardShimmer 2.5s ease-in-out infinite 1.2s;
   z-index: 2;
 }
 
@@ -479,7 +479,7 @@
     0 0 20px rgba(212, 168, 67, 0.4),
     0 0 40px rgba(212, 168, 67, 0.2),
     0 0 80px rgba(212, 168, 67, 0.1);
-  animation: headingPulse 4s ease-in-out infinite;
+  animation: headingPulse 2.5s ease-in-out infinite;
 }
 
 @keyframes headingPulse {
@@ -537,7 +537,7 @@
     linear-gradient(var(--void), var(--void)) padding-box,
     linear-gradient(135deg, rgba(212, 168, 67, 0.3), transparent 40%, transparent 60%, rgba(212, 168, 67, 0.3)) border-box;
   pointer-events: none;
-  animation: framePulse 5s ease-in-out infinite;
+  animation: framePulse 3s ease-in-out infinite;
 }
 
 @keyframes framePulse {

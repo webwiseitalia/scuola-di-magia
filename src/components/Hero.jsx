@@ -23,48 +23,48 @@ export default function Hero() {
   useEffect(() => {
     const section = sectionRef.current
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.3 })
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 })
 
       tl.fromTo(imageRef.current,
-        { scale: 1.4, opacity: 0 },
-        { scale: 1.08, opacity: 1, duration: 3, ease: 'power2.out' }
+        { scale: 1.3, opacity: 0 },
+        { scale: 1.05, opacity: 1, duration: 1.6, ease: 'power2.out' }
       )
-      tl.to(overlayRef.current, { opacity: 1, duration: 1.5 }, 0.5)
+      tl.to(overlayRef.current, { opacity: 1, duration: 0.8 }, 0.3)
 
       const logoEl = contentRef.current?.querySelector('.hero-logo')
       if (logoEl) {
         tl.fromTo(logoEl,
           { opacity: 0, scale: 0.6, filter: 'blur(15px) brightness(2)' },
-          { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1)', duration: 1.5, ease: 'power2.out' },
-          0.8
+          { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1)', duration: 0.8, ease: 'power2.out' },
+          0.4
         )
       }
 
       const titleEl = titleRef.current
       if (titleEl) {
         const split = new SplitType(titleEl, { types: 'chars' })
-        gsap.set(split.chars, { opacity: 0, y: 80, rotateX: -90 })
+        gsap.set(split.chars, { opacity: 0, y: 50, rotateX: -60 })
         tl.to(split.chars, {
           opacity: 1, y: 0, rotateX: 0,
-          duration: 0.9, stagger: 0.025,
+          duration: 0.5, stagger: 0.018,
           ease: 'power4.out',
-        }, 1.0)
+        }, 0.5)
       }
 
       if (subtitleRef.current) {
         tl.fromTo(subtitleRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
-          1.6
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+          0.9
         )
       }
 
       const fadeItems = contentRef.current?.querySelectorAll('.hero-fade')
       if (fadeItems) {
         tl.fromTo(fadeItems,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 },
-          2.0
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 },
+          1.1
         )
       }
 
@@ -168,7 +168,7 @@ export default function Hero() {
         </div>
 
         {/* Mini Event Card — bottom right */}
-        <a href="#evento" className="hero-fade hidden lg:flex absolute bottom-[clamp(3rem,6vh,6rem)] right-[clamp(1.5rem,3vw,4rem)] z-30 items-center gap-5 px-6 py-4 rounded-2xl transition-all duration-500 group" style={{
+        <a href="#evento" className="hero-fade hidden lg:flex absolute bottom-[clamp(3rem,6vh,6rem)] right-[clamp(1.5rem,3vw,4rem)] z-30 items-center gap-5 px-6 py-4 rounded-2xl transition-all duration-300 group" style={{
           opacity: 0,
           background: 'rgba(237,224,200,0.04)',
           border: '1px solid rgba(212,168,67,0.12)',
@@ -197,7 +197,7 @@ export default function Hero() {
       <div className="absolute bottom-6 right-8 sm:right-12 z-20 flex flex-col items-center gap-2">
         <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.55rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Scorri</span>
         <div className="w-px h-12 relative overflow-hidden" style={{ background: 'rgba(212,168,67,0.1)' }}>
-          <div className="absolute top-0 left-0 w-full" style={{ height: '30%', background: 'linear-gradient(180deg, var(--gold), transparent)', animation: 'scrollLine 2.5s ease-in-out infinite' }} />
+          <div className="absolute top-0 left-0 w-full" style={{ height: '30%', background: 'linear-gradient(180deg, var(--gold), transparent)', animation: 'scrollLine 1.8s ease-in-out infinite' }} />
         </div>
         <style>{`@keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(450%); } }`}</style>
       </div>

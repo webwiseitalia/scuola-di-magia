@@ -8,8 +8,8 @@ export default function ScrollReveal({
   children,
   className = '',
   delay = 0,
-  y = 60,
-  duration = 1,
+  y = 40,
+  duration = 0.6,
   from = 'bottom', // 'bottom', 'left', 'right', 'fade'
   scrub = false,
 }) {
@@ -23,8 +23,8 @@ export default function ScrollReveal({
     const final = { opacity: 1, duration, delay, ease: 'power3.out' }
 
     if (from === 'bottom') { initial.y = y; final.y = 0 }
-    if (from === 'left') { initial.x = -60; final.x = 0 }
-    if (from === 'right') { initial.x = 60; final.x = 0 }
+    if (from === 'left') { initial.x = -40; final.x = 0 }
+    if (from === 'right') { initial.x = 40; final.x = 0 }
     if (from === 'fade') { initial.filter = 'blur(4px)'; final.filter = 'blur(0px)' }
 
     gsap.set(el, initial)

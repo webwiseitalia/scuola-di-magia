@@ -51,9 +51,9 @@ export default function Location() {
       const heading = headingRef.current
       if (heading) {
         const split = new SplitType(heading, { types: 'chars' })
-        gsap.set(split.chars, { opacity: 0, y: 60 })
+        gsap.set(split.chars, { opacity: 0, y: 40 })
         gsap.to(split.chars, {
-          opacity: 1, y: 0, duration: 0.8, stagger: 0.03, ease: 'power3.out',
+          opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: 'power3.out',
           scrollTrigger: { trigger: heading, start: 'top 85%', once: true },
         })
       }

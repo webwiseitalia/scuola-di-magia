@@ -20,9 +20,9 @@ export default function Navbar() {
   useEffect(() => {
     const nav = navRef.current
     gsap.fromTo(nav,
-      { y: -100, opacity: 0 },
+      { y: -80, opacity: 0 },
       {
-        y: 0, opacity: 1, duration: 0.6, ease: 'power3.out',
+        y: 0, opacity: 1, duration: 0.4, ease: 'power3.out',
         scrollTrigger: {
           trigger: 'body',
           start: '80vh top',
