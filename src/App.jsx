@@ -1,3 +1,5 @@
+import SmoothScroll from './components/SmoothScroll'
+import MagicCursor from './components/MagicCursor'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Esperienza from './components/Esperienza'
@@ -12,19 +14,22 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen bg-night-dark">
+    <SmoothScroll>
+      <MagicCursor />
       <Navbar />
-      <Hero />
-      <Esperienza />
-      <Location />
-      <DateIscrizioni />
-      <Genitori />
-      <Gallery />
-      <Recensioni />
-      <ChiSiamo />
-      <Contatti />
+      <main>
+        <Hero />
+        <Esperienza />
+        <Location />
+        <DateIscrizioni />
+        <Genitori />
+        <Gallery />
+        <Recensioni />
+        <ChiSiamo />
+        <Contatti />
+      </main>
       <Footer />
-    </div>
+    </SmoothScroll>
   )
 }
 

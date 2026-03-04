@@ -1,21 +1,58 @@
 import { useEffect, useRef } from 'react'
 
-export default function MagicParticles({ count = 30, className = '' }) {
+export default function MagicParticles({ count = 50, className = '' }) {
   const containerRef = useRef(null)
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
+    // Add keyframes once
+    if (!document.getElementById('magic-particle-styles')) {
+      const style = document.createElement('style')
+      style.id = 'magic-particle-styles'
+      style.textContent = `
+        @keyframes magicRise {
+          0% { opacity: 0; transform: translateY(0) scale(0); }
+          15% { opacity: 1; }
+          50% { opacity: 0.8; transform: translateY(-40px) scale(1); }
+          85% { opacity: 0.3; }
+          100% { opacity: 0; transform: translateY(-80px) scale(0.3); }
+        }
+        @keyframes magicDrift {
+          0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+          20% { opacity: 0.6; }
+          50% { opacity: 1; transform: translate(15px, -25px) scale(1.2); }
+          80% { opacity: 0.4; }
+          100% { opacity: 0; transform: translate(-10px, -50px) scale(0); }
+        }
+        @keyframes magicPulse {
+          0%, 100% { opacity: 0.1; transform: scale(0.5); }
+          50% { opacity: 0.8; transform: scale(1.5); }
+        }
+      `
+      document.head.appendChild(style)
+    }
+
     const particles = []
+    const animations = ['magicRise', 'magicDrift', 'magicPulse']
 
     for (let i = 0; i < count; i++) {
       const particle = document.createElement('div')
-      const size = Math.random() * 3 + 1
+      const size = Math.random() * 3 + 0.5
       const x = Math.random() * 100
       const y = Math.random() * 100
-      const duration = Math.random() * 4 + 3
-      const delay = Math.random() * 5
+      const anim = animations[Math.floor(Math.random() * animations.length)]
+      const duration = Math.random() * 6 + 3
+      const delay = Math.random() * 8
+
+      const goldVariants = [
+        'rgba(200, 169, 81, 0.8)',
+        'rgba(232, 212, 139, 0.6)',
+        'rgba(138, 112, 53, 0.7)',
+        'rgba(212, 165, 66, 0.5)',
+      ]
+      const color = goldVariants[Math.floor(Math.random() * goldVariants.length)]
 
       particle.style.cssText = `
         position: absolute;
@@ -23,33 +60,17 @@ export default function MagicParticles({ count = 30, className = '' }) {
         top: ${y}%;
         width: ${size}px;
         height: ${size}px;
-        background: radial-gradient(circle, rgba(200, 169, 81, 0.9) 0%, rgba(200, 169, 81, 0) 70%);
+        background: radial-gradient(circle, ${color} 0%, transparent 70%);
         border-radius: 50%;
         pointer-events: none;
-        animation: particleFloat ${duration}s ease-in-out ${delay}s infinite;
+        animation: ${anim} ${duration}s ease-in-out ${delay}s infinite;
+        will-change: transform, opacity;
       `
       container.appendChild(particle)
       particles.push(particle)
     }
 
-    // Add animation keyframes
-    if (!document.getElementById('particle-styles')) {
-      const style = document.createElement('style')
-      style.id = 'particle-styles'
-      style.textContent = `
-        @keyframes particleFloat {
-          0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
-          25% { opacity: 0.8; }
-          50% { opacity: 1; transform: translateY(-30px) scale(1); }
-          75% { opacity: 0.6; }
-        }
-      `
-      document.head.appendChild(style)
-    }
-
-    return () => {
-      particles.forEach((p) => p.remove())
-    }
+    return () => particles.forEach((p) => p.remove())
   }, [count])
 
   return (

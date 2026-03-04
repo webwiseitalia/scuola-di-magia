@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { X } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionTitle from './SectionTitle'
 import ScrollReveal from './ScrollReveal'
 
@@ -20,95 +21,101 @@ import foto14 from '../assets/foto/foto-14.webp'
 import foto15 from '../assets/foto/foto-15.webp'
 import foto16 from '../assets/foto/foto-16.webp'
 
-const photos = [
-  { src: foto1, alt: 'Foto di gruppo dei partecipanti', category: 'gruppo' },
-  { src: foto10, alt: 'Castello di Thiene con stendardi', category: 'location' },
-  { src: foto6, alt: 'Lezione di formule magiche', category: 'lezioni' },
-  { src: foto9, alt: 'Cerimonia delle casate', category: 'casate' },
-  { src: foto2, alt: 'Maestro di magia durante una lezione', category: 'lezioni' },
-  { src: foto11, alt: 'Lezione con bacchetta e ragazzo', category: 'lezioni' },
-  { src: foto5, alt: 'Lezione nelle segrete del castello', category: 'lezioni' },
-  { src: foto15, alt: 'Cerimonia natalizia - Xmas Edition', category: 'xmas' },
-  { src: foto7, alt: 'Lezione in sala affrescata', category: 'lezioni' },
-  { src: foto8, alt: 'Professoressa con illustrazione di creature', category: 'lezioni' },
-  { src: foto13, alt: 'Attore legge una lettera', category: 'spettacoli' },
-  { src: foto14, alt: 'Staff in costume medievale', category: 'staff' },
-  { src: foto3, alt: 'Statua di creatura fantastica nel giardino', category: 'location' },
-  { src: foto4, alt: 'Bacchette magiche esposte', category: 'oggetti' },
-  { src: foto16, alt: 'Stemma della scuola con albero di Natale', category: 'xmas' },
-  { src: foto12, alt: 'Lanterna in atmosfera medievale', category: 'atmosfera' },
-]
+gsap.registerPlugin(ScrollTrigger)
 
-const filters = [
-  { label: 'Tutto', value: 'all' },
-  { label: 'Lezioni', value: 'lezioni' },
-  { label: 'Location', value: 'location' },
-  { label: 'Casate', value: 'casate' },
-  { label: 'Spettacoli', value: 'spettacoli' },
-  { label: 'Xmas Edition', value: 'xmas' },
+const photos = [
+  { src: foto1, alt: 'Foto di gruppo', cat: 'all', span: 'col-span-2 row-span-2' },
+  { src: foto10, alt: 'Castello di Thiene', cat: 'location', span: '' },
+  { src: foto6, alt: 'Lezione di formule', cat: 'lezioni', span: '' },
+  { src: foto9, alt: 'Cerimonia casate', cat: 'casate', span: 'row-span-2' },
+  { src: foto2, alt: 'Maestro di magia', cat: 'lezioni', span: '' },
+  { src: foto11, alt: 'Lezione con bacchetta', cat: 'lezioni', span: '' },
+  { src: foto5, alt: 'Segrete del castello', cat: 'lezioni', span: 'col-span-2' },
+  { src: foto15, alt: 'Xmas Edition', cat: 'xmas', span: '' },
+  { src: foto7, alt: 'Sala affrescata', cat: 'lezioni', span: '' },
+  { src: foto8, alt: 'Professoressa creature', cat: 'lezioni', span: '' },
+  { src: foto13, alt: 'Attore con lettera', cat: 'spettacoli', span: '' },
+  { src: foto14, alt: 'Staff in costume', cat: 'staff', span: 'col-span-2' },
+  { src: foto4, alt: 'Bacchette magiche', cat: 'oggetti', span: '' },
+  { src: foto16, alt: 'Stemma e Natale', cat: 'xmas', span: '' },
+  { src: foto12, alt: 'Lanterna medievale', cat: 'atmosfera', span: '' },
+  { src: foto3, alt: 'Creatura fantastica', cat: 'location', span: '' },
 ]
 
 export default function Gallery() {
-  const [filter, setFilter] = useState('all')
   const [lightbox, setLightbox] = useState(null)
+  const gridRef = useRef(null)
 
-  const filtered = filter === 'all' ? photos : photos.filter((p) => p.category === filter)
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const items = gridRef.current?.querySelectorAll('.gallery-item')
+      if (items) {
+        items.forEach((item, i) => {
+          gsap.fromTo(item,
+            { opacity: 0, y: 30, scale: 0.95 },
+            {
+              opacity: 1, y: 0, scale: 1,
+              duration: 0.7,
+              delay: (i % 4) * 0.08,
+              ease: 'power3.out',
+              scrollTrigger: { trigger: item, start: 'top 90%', once: true },
+            }
+          )
+        })
+      }
+    })
+    return () => ctx.revert()
+  }, [])
+
+  // Close lightbox on escape
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setLightbox(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
-    <section id="gallery" className="section-padding bg-magic-gradient relative">
-      <div className="max-w-7xl mx-auto">
-        <SectionTitle
-          title="Rivivere la Magia"
-          subtitle="Immagini dalle edizioni passate. L'atmosfera, le emozioni, i volti dei nostri piccoli maghi."
-        />
+    <section id="gallery" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, var(--void) 0%, var(--night) 30%, var(--purple-deep) 50%, var(--night) 70%, var(--void) 100%)' }} />
 
-        {/* Filters */}
-        <ScrollReveal className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-14">
-          {filters.map((f) => (
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle title="Rivivere la Magia" subtitle="Immagini dalle edizioni passate. L'atmosfera, le emozioni, i volti dei nostri piccoli maghi." />
+
+        {/* Masonry-like grid */}
+        <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+          {photos.map((photo, i) => (
             <button
-              key={f.value}
-              onClick={() => setFilter(f.value)}
-              className={`px-4 py-2 rounded-full font-serif text-sm tracking-wider transition-all duration-300 ${
-                filter === f.value
-                  ? 'bg-gold text-night-dark font-bold shadow-[0_0_15px_rgba(200,169,81,0.3)]'
-                  : 'bg-white/5 border border-gold/20 text-parchment/60 hover:border-gold/40 hover:text-parchment/80'
-              }`}
+              key={i}
+              onClick={() => setLightbox(photo)}
+              className={`gallery-item group relative overflow-hidden ${photo.span}`}
+              style={{ aspectRatio: photo.span?.includes('row-span-2') ? '3/4' : photo.span?.includes('col-span-2') ? '2/1' : '1/1', opacity: 0, border: '1px solid rgba(200,169,81,0.06)' }}
             >
-              {f.label}
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                loading="lazy"
+              />
+              {/* Hover overlay — magical reveal */}
+              <div className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100" style={{ background: 'linear-gradient(to top, rgba(8,7,14,0.8) 0%, rgba(8,7,14,0.2) 40%, transparent 100%)' }} />
+              <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                <span style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '0.85rem', color: 'var(--parchment-dim)' }}>{photo.alt}</span>
+              </div>
             </button>
-          ))}
-        </ScrollReveal>
-
-        {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {filtered.map((photo, i) => (
-            <ScrollReveal key={photo.src + filter} delay={i * 0.05}>
-              <button
-                onClick={() => setLightbox(photo)}
-                className="group relative aspect-[4/3] rounded-xl overflow-hidden magic-border cursor-pointer w-full"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-night-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
-            </ScrollReveal>
           ))}
         </div>
 
-        {/* Instagram CTA */}
-        <ScrollReveal className="text-center mt-12 sm:mt-16">
-          <p className="font-body text-parchment/50 text-base mb-4">
+        {/* Instagram */}
+        <ScrollReveal className="text-center mt-16 sm:mt-20">
+          <p className="mb-5" style={{ color: 'var(--parchment-dim)', opacity: 0.5, fontSize: 'var(--fs-small)' }}>
             Segui le nostre avventure in tempo reale
           </p>
           <a
             href="https://www.instagram.com/scuoladimagiaitaliana"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary text-sm sm:text-base"
+            className="btn-ghost"
+            style={{ fontSize: '0.75rem' }}
           >
             @scuoladimagiaitaliana — 9.800+ follower
           </a>
@@ -118,21 +125,26 @@ export default function Gallery() {
       {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 bg-night-dark/95 backdrop-blur-xl flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(8,7,14,0.96)', backdropFilter: 'blur(30px)' }}
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-4 right-4 text-parchment/60 hover:text-parchment transition-colors z-50"
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center transition-colors z-50"
             onClick={() => setLightbox(null)}
+            style={{ color: 'var(--parchment-dim)', border: '1px solid rgba(200,169,81,0.2)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.borderColor = 'rgba(200,169,81,0.5)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--parchment-dim)'; e.currentTarget.style.borderColor = 'rgba(200,169,81,0.2)' }}
             aria-label="Chiudi"
           >
-            <X size={32} />
+            ×
           </button>
           <img
             src={lightbox.src}
             alt={lightbox.alt}
-            className="max-w-full max-h-[85vh] rounded-xl object-contain"
+            className="max-w-full max-h-[85vh] object-contain"
             onClick={(e) => e.stopPropagation()}
+            style={{ boxShadow: '0 0 80px rgba(0,0,0,0.5)' }}
           />
         </div>
       )}

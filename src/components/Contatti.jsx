@@ -1,153 +1,125 @@
 import { useState } from 'react'
-import { Mail, Phone, Instagram, Facebook, Send } from 'lucide-react'
 import SectionTitle from './SectionTitle'
 import ScrollReveal from './ScrollReveal'
 
-const contactInfo = [
-  {
-    icon: Instagram,
-    label: '@scuoladimagiaitaliana',
-    href: 'https://www.instagram.com/scuoladimagiaitaliana',
-  },
-  {
-    icon: Facebook,
-    label: 'Scuola di Magia Italiana',
-    href: 'https://www.facebook.com/scuoladimagiaitaliana',
-  },
-]
-
 export default function Contatti() {
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    oggetto: 'Informazioni evento',
-    messaggio: '',
-    privacy: false,
-  })
+  const [formData, setFormData] = useState({ nome: '', email: '', oggetto: 'Informazioni evento', messaggio: '', privacy: false })
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Form submission would be handled by external service
-    setSubmitted(true)
+  const handleSubmit = (e) => { e.preventDefault(); setSubmitted(true) }
+
+  const inputStyle = {
+    width: '100%',
+    padding: '0.8rem 1rem',
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(200,169,81,0.12)',
+    color: 'var(--parchment)',
+    fontFamily: '"Cormorant Garamond", serif',
+    fontSize: '1rem',
+    outline: 'none',
+    transition: 'border-color 0.4s',
   }
 
   return (
-    <section id="contatti" className="section-padding bg-parchment-texture relative">
-      <div className="max-w-7xl mx-auto">
-        <SectionTitle
-          title="Contatti"
-          subtitle="Hai domande? Scrivici, rispondiamo con un gufo entro 24 ore."
-        />
+    <section id="contatti" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 40% 60%, rgba(200,169,81,0.03) 0%, transparent 50%)' }} />
 
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Contact Info */}
-          <ScrollReveal className="lg:col-span-2">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle title="Contatti" subtitle="Hai domande? Scrivici, rispondiamo con un gufo entro 24 ore." />
+
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Info column */}
+          <ScrollReveal className="lg:col-span-4" from="left">
             <div className="space-y-6">
-              <div className="glass-card p-6 sm:p-8 magic-border">
-                <h3 className="font-serif text-xl text-gold mb-6">Seguici</h3>
+              {/* Social */}
+              <div className="glass-dark p-6 sm:p-8" style={{ borderLeft: '2px solid rgba(200,169,81,0.12)' }}>
+                <h3 className="mb-5" style={{ fontFamily: '"Cinzel", serif', fontSize: '1rem', letterSpacing: '0.1em', color: 'var(--gold)' }}>Seguici</h3>
                 <div className="space-y-4">
-                  {contactInfo.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 group"
-                    >
-                      <div className="w-11 h-11 rounded-full bg-gold/10 flex items-center justify-center border border-gold/20 group-hover:bg-gold/20 transition-colors">
-                        <item.icon className="text-gold" size={20} />
-                      </div>
-                      <span className="font-body text-parchment/70 group-hover:text-gold transition-colors">
-                        {item.label}
+                  {[
+                    { label: '@scuoladimagiaitaliana', href: 'https://www.instagram.com/scuoladimagiaitaliana', platform: 'Instagram' },
+                    { label: 'Scuola di Magia Italiana', href: 'https://www.facebook.com/scuoladimagiaitaliana', platform: 'Facebook' },
+                  ].map((s) => (
+                    <a key={s.platform} href={s.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+                      <span className="w-8 h-8 flex items-center justify-center transition-all duration-300" style={{ border: '1px solid rgba(200,169,81,0.15)', color: 'var(--gold-dim)', fontSize: '0.7rem', fontFamily: '"Cinzel", serif' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--gold)' }}
+                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)'; e.currentTarget.style.color = 'var(--gold-dim)' }}
+                      >
+                        {s.platform[0]}
                       </span>
+                      <span className="transition-colors duration-300" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)' }}>{s.label}</span>
                     </a>
                   ))}
                 </div>
               </div>
 
-              <div className="glass-card p-6 sm:p-8 magic-border">
-                <h3 className="font-serif text-xl text-gold mb-3">Sito Associazione</h3>
-                <a
-                  href="https://caraval.it"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-body text-parchment/70 hover:text-gold transition-colors"
+              {/* Association */}
+              <div className="glass-dark p-6 sm:p-8" style={{ borderLeft: '2px solid rgba(200,169,81,0.12)' }}>
+                <h3 className="mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: '1rem', letterSpacing: '0.1em', color: 'var(--gold)' }}>Associazione</h3>
+                <a href="https://caraval.it" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--parchment-dim)', transition: 'color 0.3s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--gold)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--parchment-dim)' }}
                 >
                   caraval.it
                 </a>
               </div>
 
               {/* Newsletter */}
-              <div className="glass-card p-6 sm:p-8 magic-border bg-gold/5">
-                <h3 className="font-serif text-xl text-gold mb-3">Resta Aggiornato</h3>
-                <p className="font-body text-parchment/60 text-sm mb-4">
-                  Iscriviti per ricevere le date di apertura delle iscrizioni
-                  e le novità sulle prossime edizioni.
+              <div className="p-6 sm:p-8" style={{ background: 'rgba(200,169,81,0.03)', border: '1px solid rgba(200,169,81,0.1)' }}>
+                <h3 className="mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: '1rem', letterSpacing: '0.1em', color: 'var(--gold)' }}>Resta Aggiornato</h3>
+                <p className="mb-4" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.6 }}>
+                  Ricevi le date di apertura iscrizioni per le prossime edizioni.
                 </p>
                 <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-                  <input
-                    type="email"
-                    placeholder="La tua email"
-                    className="flex-1 px-4 py-2.5 bg-white/5 border border-gold/20 rounded-lg text-parchment font-body text-sm placeholder:text-parchment/30 focus:outline-none focus:border-gold/50"
+                  <input type="email" placeholder="La tua email" style={{ ...inputStyle, flex: 1 }}
+                    onFocus={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.4)' }}
+                    onBlur={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.12)' }}
                   />
-                  <button
-                    type="submit"
-                    className="px-4 py-2.5 bg-gold text-night-dark rounded-lg hover:bg-gold-light transition-colors"
+                  <button type="submit" style={{ padding: '0.8rem 1rem', background: 'var(--gold)', color: 'var(--void)', fontFamily: '"Cinzel", serif', fontSize: '0.7rem', fontWeight: 700, border: 'none', transition: 'all 0.3s' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 0 20px rgba(200,169,81,0.3)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none' }}
                   >
-                    <Send size={16} />
+                    &rarr;
                   </button>
                 </form>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Contact Form */}
-          <ScrollReveal delay={0.2} className="lg:col-span-3">
-            <div className="glass-card p-6 sm:p-8 magic-border">
-              <h3 className="font-serif text-xl sm:text-2xl text-gold mb-6">Scrivici un Messaggio</h3>
+          {/* Form */}
+          <ScrollReveal className="lg:col-span-8" delay={0.15} from="right">
+            <div className="glass-dark p-6 sm:p-8 lg:p-10" style={{ borderLeft: '2px solid rgba(200,169,81,0.12)' }}>
+              <h3 className="mb-8" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: 'var(--fs-subheading)', color: 'var(--gold)' }}>Scrivici un Messaggio</h3>
 
               {submitted ? (
-                <div className="text-center py-12">
-                  <div className="text-5xl mb-4">🦉</div>
-                  <h4 className="font-serif text-xl text-gold mb-2">Messaggio Inviato!</h4>
-                  <p className="font-body text-parchment/60">
-                    Il nostro gufo è già in volo. Ti risponderemo entro 24 ore.
-                  </p>
+                <div className="text-center py-16">
+                  <span className="block mb-4" style={{ fontSize: '3rem' }}>&#x1F989;</span>
+                  <h4 className="mb-2" style={{ fontFamily: '"Cinzel", serif', fontSize: '1.2rem', color: 'var(--gold)' }}>Messaggio Inviato!</h4>
+                  <p style={{ color: 'var(--parchment-dim)', opacity: 0.6 }}>Il nostro gufo è in volo. Ti rispondiamo entro 24 ore.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block font-serif text-sm text-parchment/60 mb-1.5">Nome</label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.nome}
-                        onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-gold/20 rounded-lg text-parchment font-body placeholder:text-parchment/30 focus:outline-none focus:border-gold/50 transition-colors"
-                        placeholder="Il tuo nome"
+                      <label className="block mb-1.5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Nome</label>
+                      <input type="text" required value={formData.nome} onChange={(e) => setFormData({ ...formData, nome: e.target.value })} placeholder="Il tuo nome" style={inputStyle}
+                        onFocus={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.4)' }}
+                        onBlur={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.12)' }}
                       />
                     </div>
                     <div>
-                      <label className="block font-serif text-sm text-parchment/60 mb-1.5">Email</label>
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 bg-white/5 border border-gold/20 rounded-lg text-parchment font-body placeholder:text-parchment/30 focus:outline-none focus:border-gold/50 transition-colors"
-                        placeholder="La tua email"
+                      <label className="block mb-1.5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Email</label>
+                      <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="La tua email" style={inputStyle}
+                        onFocus={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.4)' }}
+                        onBlur={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.12)' }}
                       />
                     </div>
                   </div>
-
                   <div>
-                    <label className="block font-serif text-sm text-parchment/60 mb-1.5">Oggetto</label>
-                    <select
-                      value={formData.oggetto}
-                      onChange={(e) => setFormData({ ...formData, oggetto: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/5 border border-gold/20 rounded-lg text-parchment font-body focus:outline-none focus:border-gold/50 transition-colors"
+                    <label className="block mb-1.5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Oggetto</label>
+                    <select value={formData.oggetto} onChange={(e) => setFormData({ ...formData, oggetto: e.target.value })} style={inputStyle}
+                      onFocus={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.4)' }}
+                      onBlur={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.12)' }}
                     >
                       <option value="Informazioni evento">Informazioni evento</option>
                       <option value="Collaborazioni">Collaborazioni</option>
@@ -155,37 +127,20 @@ export default function Contatti() {
                       <option value="Altro">Altro</option>
                     </select>
                   </div>
-
                   <div>
-                    <label className="block font-serif text-sm text-parchment/60 mb-1.5">Messaggio</label>
-                    <textarea
-                      required
-                      rows={5}
-                      value={formData.messaggio}
-                      onChange={(e) => setFormData({ ...formData, messaggio: e.target.value })}
-                      className="w-full px-4 py-3 bg-white/5 border border-gold/20 rounded-lg text-parchment font-body placeholder:text-parchment/30 focus:outline-none focus:border-gold/50 transition-colors resize-none"
-                      placeholder="Scrivi il tuo messaggio..."
+                    <label className="block mb-1.5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Messaggio</label>
+                    <textarea required rows={5} value={formData.messaggio} onChange={(e) => setFormData({ ...formData, messaggio: e.target.value })} placeholder="Scrivi il tuo messaggio..." style={{ ...inputStyle, resize: 'none' }}
+                      onFocus={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.4)' }}
+                      onBlur={(e) => { e.target.style.borderColor = 'rgba(200,169,81,0.12)' }}
                     />
                   </div>
-
                   <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      required
-                      checked={formData.privacy}
-                      onChange={(e) => setFormData({ ...formData, privacy: e.target.checked })}
-                      className="mt-1 accent-gold"
-                      id="privacy"
-                    />
-                    <label htmlFor="privacy" className="font-body text-parchment/50 text-sm leading-relaxed">
-                      Acconsento al trattamento dei miei dati personali come descritto
-                      nell'informativa sulla privacy.
+                    <input type="checkbox" required checked={formData.privacy} onChange={(e) => setFormData({ ...formData, privacy: e.target.checked })} id="privacy-check" style={{ accentColor: 'var(--gold)', marginTop: '0.25rem' }} />
+                    <label htmlFor="privacy-check" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', lineHeight: 1.6, opacity: 0.5 }}>
+                      Acconsento al trattamento dei miei dati personali come descritto nell'informativa sulla privacy.
                     </label>
                   </div>
-
-                  <button type="submit" className="btn-primary w-full sm:w-auto">
-                    Invia Messaggio
-                  </button>
+                  <button type="submit" className="btn-magic">Invia Messaggio</button>
                 </form>
               )}
             </div>

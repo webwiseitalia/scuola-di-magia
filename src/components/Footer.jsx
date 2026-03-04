@@ -1,11 +1,11 @@
-import { Instagram, Facebook } from 'lucide-react'
 import logo from '../assets/logosdmi.webp'
+import ScrollReveal from './ScrollReveal'
 
 const quickLinks = [
   { label: "L'Esperienza", href: '#esperienza' },
   { label: 'Le Location', href: '#location' },
-  { label: 'Date e Iscrizioni', href: '#iscrizioni' },
-  { label: 'Per i Genitori', href: '#genitori' },
+  { label: 'Iscrizioni', href: '#iscrizioni' },
+  { label: 'Genitori', href: '#genitori' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Chi Siamo', href: '#chi-siamo' },
   { label: 'Contatti', href: '#contatti' },
@@ -13,61 +13,55 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-night-dark border-t border-gold/10">
-      {/* CTA Banner */}
-      <div className="bg-gradient-to-r from-gold/10 via-gold/5 to-gold/10 border-b border-gold/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
-          <p className="font-display text-xl sm:text-2xl text-gold mb-4">
-            Le iscrizioni sono aperte. Non perdere il tuo posto.
+    <footer className="relative" style={{ background: 'var(--void)' }}>
+      {/* Final CTA */}
+      <div style={{ borderTop: '1px solid rgba(200,169,81,0.08)', borderBottom: '1px solid rgba(200,169,81,0.08)', background: 'linear-gradient(135deg, rgba(200,169,81,0.04) 0%, transparent 50%, rgba(200,169,81,0.04) 100%)' }}>
+        <ScrollReveal className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+          <p className="text-gold-gradient mb-6" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: 'var(--fs-subheading)', fontWeight: 700 }}>
+            Le iscrizioni sono aperte.
           </p>
-          <a href="#iscrizioni" className="btn-primary text-sm sm:text-base">
-            Iscriviti Ora
-          </a>
-        </div>
+          <p className="mb-8" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-body)', opacity: 0.6 }}>
+            Non perdere il tuo posto nella prossima edizione.
+          </p>
+          <a href="#iscrizioni" className="btn-magic">Iscriviti Ora</a>
+        </ScrollReveal>
       </div>
 
-      {/* Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      {/* Footer content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <img src={logo} alt="Scuola di Magia Italiana" className="h-12 w-auto mb-4" />
-            <p className="font-body text-parchment/40 text-sm leading-relaxed">
+            <img src={logo} alt="Scuola di Magia Italiana" className="h-10 w-auto mb-5" style={{ filter: 'drop-shadow(0 0 10px rgba(200,169,81,0.15))' }} />
+            <p style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.4, lineHeight: 1.7 }}>
               Associazione Culturale<br />Caraval Spettacoli (No Profit)
             </p>
-            <div className="flex gap-3 mt-4">
-              <a
-                href="https://www.instagram.com/scuoladimagiaitaliana"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center text-parchment/50 hover:text-gold hover:border-gold/40 transition-all"
-                aria-label="Instagram"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href="https://www.facebook.com/scuoladimagiaitaliana"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/5 border border-gold/20 flex items-center justify-center text-parchment/50 hover:text-gold hover:border-gold/40 transition-all"
-                aria-label="Facebook"
-              >
-                <Facebook size={18} />
-              </a>
+            <div className="flex gap-3 mt-5">
+              {[
+                { letter: 'I', href: 'https://www.instagram.com/scuoladimagiaitaliana', label: 'Instagram' },
+                { letter: 'F', href: 'https://www.facebook.com/scuoladimagiaitaliana', label: 'Facebook' },
+              ].map((s) => (
+                <a key={s.letter} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                  className="w-9 h-9 flex items-center justify-center transition-all duration-300"
+                  style={{ border: '1px solid rgba(200,169,81,0.12)', fontFamily: '"Cinzel", serif', fontSize: '0.65rem', color: 'var(--gold-dim)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.4)'; e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.boxShadow = '0 0 15px rgba(200,169,81,0.1)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.12)'; e.currentTarget.style.color = 'var(--gold-dim)'; e.currentTarget.style.boxShadow = 'none' }}
+                >
+                  {s.letter}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
           <div>
-            <h4 className="font-serif text-sm text-gold/80 tracking-widest uppercase mb-4">
-              Link Rapidi
-            </h4>
-            <ul className="space-y-2.5">
+            <h4 className="mb-5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Link Rapidi</h4>
+            <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="font-body text-parchment/50 hover:text-gold text-sm transition-colors"
+                  <a href={link.href} style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.4, transition: 'all 0.3s' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.color = 'var(--gold)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.4'; e.currentTarget.style.color = 'var(--parchment-dim)' }}
                   >
                     {link.label}
                   </a>
@@ -76,50 +70,40 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Location */}
+          {/* Locations */}
           <div>
-            <h4 className="font-serif text-sm text-gold/80 tracking-widest uppercase mb-4">
-              Le Nostre Sedi
-            </h4>
-            <ul className="space-y-2.5 font-body text-parchment/50 text-sm">
-              <li>Castello di Thiene — Thiene (VI)</li>
-              <li>Palazzo Barbo — Torre Pallavicina (BG)</li>
-              <li>Castel Mareccio — Bolzano (BZ)</li>
+            <h4 className="mb-5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Le Sedi</h4>
+            <ul className="space-y-3" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.4 }}>
+              <li>Castello di Thiene — Vicenza</li>
+              <li>Palazzo Barbo — Bergamo</li>
+              <li>Castel Mareccio — Bolzano</li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h4 className="font-serif text-sm text-gold/80 tracking-widest uppercase mb-4">
-              Legale
-            </h4>
-            <ul className="space-y-2.5">
-              <li>
-                <a href="#" className="font-body text-parchment/50 hover:text-gold text-sm transition-colors">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="font-body text-parchment/50 hover:text-gold text-sm transition-colors">
-                  Cookie Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="font-body text-parchment/50 hover:text-gold text-sm transition-colors">
-                  Termini e Condizioni
-                </a>
-              </li>
+            <h4 className="mb-5" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Legale</h4>
+            <ul className="space-y-3">
+              {['Privacy Policy', 'Cookie Policy', 'Termini e Condizioni'].map((item) => (
+                <li key={item}>
+                  <a href="#" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.4, transition: 'all 0.3s' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.color = 'var(--gold)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.4'; e.currentTarget.style.color = 'var(--parchment-dim)' }}
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-gold/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-body text-parchment/30 text-xs text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Scuola di Magia Italiana — Associazione Culturale Caraval Spettacoli.
-            Tutti i diritti riservati.
+        {/* Bottom */}
+        <div className="mt-16 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid rgba(200,169,81,0.06)' }}>
+          <p style={{ color: 'var(--parchment-dim)', fontSize: '0.7rem', opacity: 0.25 }}>
+            &copy; {new Date().getFullYear()} Scuola di Magia Italiana — Associazione Culturale Caraval Spettacoli. Tutti i diritti riservati.
           </p>
-          <p className="font-body text-parchment/20 text-xs">
+          <p style={{ color: 'var(--parchment-dim)', fontSize: '0.65rem', opacity: 0.15 }}>
             Evento liberamente ispirato all'universo fantasy. Non affiliato a marchi registrati.
           </p>
         </div>

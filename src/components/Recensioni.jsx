@@ -1,32 +1,16 @@
-import { Star, Quote, Newspaper } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SectionTitle from './SectionTitle'
 import ScrollReveal from './ScrollReveal'
 
+gsap.registerPlugin(ScrollTrigger)
+
 const testimonials = [
-  {
-    text: "Mio figlio non ha smesso di parlarne per settimane. Ha trovato amici da tutta Italia e non vede l'ora di tornare per il secondo anno. Un'esperienza che gli ha acceso la fantasia.",
-    author: 'Mamma di Lorenzo, 9 anni',
-    edition: 'Castello di Thiene 2024',
-    rating: 5,
-  },
-  {
-    text: "Eravamo preoccupati a lasciarlo tre giorni, ma lo staff è stato incredibile. Professionale, attento, divertente. Nostro figlio è tornato con gli occhi che brillavano.",
-    author: 'Genitori di Sofia, 11 anni',
-    edition: 'Palazzo Barbo 2024',
-    rating: 5,
-  },
-  {
-    text: "L'atmosfera nel castello è pazzesca. Ogni angolo è curato nei minimi dettagli. È come entrare davvero in un mondo magico. I ragazzi erano tutti entusiasti.",
-    author: 'Papà di Marco e Giulia',
-    edition: 'Xmas Edition Bolzano 2024',
-    rating: 5,
-  },
-  {
-    text: "La cosa che mi ha colpita di più è il valore educativo. Non è solo divertimento: i laboratori, il lavoro di squadra, la creatività... tutto è pensato per far crescere i ragazzi.",
-    author: 'Mamma di Alessia, 8 anni',
-    edition: 'Castello di Thiene 2023',
-    rating: 5,
-  },
+  { text: "Mio figlio non ha smesso di parlarne per settimane. Ha trovato amici da tutta Italia e non vede l'ora di tornare per il secondo anno.", author: 'Mamma di Lorenzo, 9 anni', edition: 'Castello di Thiene 2024' },
+  { text: "Eravamo preoccupati a lasciarlo tre giorni, ma lo staff è stato incredibile. Professionale, attento, divertente. È tornato con gli occhi che brillavano.", author: 'Genitori di Sofia, 11 anni', edition: 'Palazzo Barbo 2024' },
+  { text: "L'atmosfera nel castello è pazzesca. Ogni angolo è curato nei minimi dettagli. È come entrare davvero in un mondo magico.", author: 'Papà di Marco e Giulia', edition: 'Xmas Edition Bolzano 2024' },
+  { text: "Il valore educativo mi ha colpita. Laboratori, lavoro di squadra, creatività... tutto è pensato per far crescere i ragazzi.", author: 'Mamma di Alessia, 8 anni', edition: 'Castello di Thiene 2023' },
 ]
 
 const press = [
@@ -40,32 +24,40 @@ const press = [
 
 export default function Recensioni() {
   return (
-    <section id="recensioni" className="section-padding bg-parchment-texture relative">
-      <div className="max-w-7xl mx-auto">
-        <SectionTitle
-          title="Dicono di Noi"
-          subtitle="Le parole dei genitori e della stampa. Il feedback più prezioso viene da chi ha vissuto l'esperienza."
-        />
+    <section id="recensioni" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }} />
 
-        {/* Testimonials */}
-        <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-16 sm:mb-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionTitle title="Dicono di Noi" subtitle="Le parole di chi ha vissuto la magia." />
+
+        {/* Testimonials — offset grid */}
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-20 sm:mb-28">
           {testimonials.map((t, i) => (
-            <ScrollReveal key={i} delay={i * 0.1}>
-              <div className="glass-card p-6 sm:p-8 magic-border h-full flex flex-col">
-                <Quote className="text-gold/30 mb-4 shrink-0" size={32} />
-                <p className="font-body text-parchment/80 text-lg leading-relaxed italic mb-6 flex-1">
-                  "{t.text}"
+            <ScrollReveal key={i} delay={i * 0.1} from={i % 2 === 0 ? 'left' : 'right'}>
+              <div
+                className="p-8 sm:p-10 h-full flex flex-col transition-all duration-500"
+                style={{
+                  background: 'var(--void)',
+                  border: '1px solid rgba(200,169,81,0.06)',
+                  marginTop: i % 2 === 1 ? '2rem' : '0',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(200,169,81,0.04)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+              >
+                {/* Quote mark */}
+                <span className="block mb-6" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: '3rem', lineHeight: 1, color: 'var(--gold-dim)', opacity: 0.3 }}>"</span>
+
+                <p className="flex-1 mb-8" style={{ fontStyle: 'italic', color: 'var(--parchment)', lineHeight: 1.9, fontSize: '1.05rem' }}>
+                  {t.text}
                 </p>
-                <div className="flex items-center justify-between border-t border-gold/10 pt-4">
-                  <div>
-                    <p className="font-serif text-sm text-parchment-light">{t.author}</p>
-                    <p className="font-body text-xs text-parchment/40 mt-0.5">{t.edition}</p>
-                  </div>
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} size={14} className="fill-gold text-gold" />
-                    ))}
-                  </div>
+
+                <div style={{ borderTop: '1px solid rgba(200,169,81,0.08)', paddingTop: '1rem' }}>
+                  <p style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--parchment)', letterSpacing: '0.05em' }}>
+                    {t.author}
+                  </p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--parchment-dim)', opacity: 0.4, marginTop: '0.25rem' }}>
+                    {t.edition}
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
@@ -74,23 +66,22 @@ export default function Recensioni() {
 
         {/* Press */}
         <ScrollReveal>
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-3 text-gold/60">
-              <div className="h-px w-12 bg-gold/30" />
-              <Newspaper size={20} />
-              <span className="font-serif text-sm tracking-widest uppercase">Rassegna Stampa</span>
-              <Newspaper size={20} />
-              <div className="h-px w-12 bg-gold/30" />
-            </div>
+          <div className="divider-magic mb-10">
+            <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>
+              Rassegna Stampa
+            </span>
           </div>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'rgba(200,169,81,0.04)' }}>
           {press.map((item, i) => (
-            <ScrollReveal key={item.name} delay={i * 0.05}>
-              <div className="glass-card p-5 magic-border text-center hover:bg-white/10 transition-all duration-300">
-                <h4 className="font-serif text-base text-gold mb-2">{item.name}</h4>
-                <p className="font-body text-parchment/50 text-sm italic">"{item.quote}"</p>
+            <ScrollReveal key={item.name} delay={i * 0.05} from="fade">
+              <div className="p-6 sm:p-8 text-center transition-all duration-300" style={{ background: 'var(--void)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,169,81,0.02)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--void)' }}
+              >
+                <h4 className="mb-2" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--gold)', letterSpacing: '0.05em' }}>{item.name}</h4>
+                <p style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.5 }}>"{item.quote}"</p>
               </div>
             </ScrollReveal>
           ))}
