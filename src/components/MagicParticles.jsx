@@ -7,7 +7,6 @@ export default function MagicParticles({ count = 50, className = '' }) {
     const container = containerRef.current
     if (!container) return
 
-    // Add keyframes once
     if (!document.getElementById('magic-particle-styles')) {
       const style = document.createElement('style')
       style.id = 'magic-particle-styles'
@@ -15,20 +14,20 @@ export default function MagicParticles({ count = 50, className = '' }) {
         @keyframes magicRise {
           0% { opacity: 0; transform: translateY(0) scale(0); }
           15% { opacity: 1; }
-          50% { opacity: 0.8; transform: translateY(-40px) scale(1); }
-          85% { opacity: 0.3; }
-          100% { opacity: 0; transform: translateY(-80px) scale(0.3); }
+          50% { opacity: 0.8; transform: translateY(-50px) scale(1); }
+          85% { opacity: 0.2; }
+          100% { opacity: 0; transform: translateY(-100px) scale(0.2); }
         }
         @keyframes magicDrift {
           0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
           20% { opacity: 0.6; }
-          50% { opacity: 1; transform: translate(15px, -25px) scale(1.2); }
-          80% { opacity: 0.4; }
-          100% { opacity: 0; transform: translate(-10px, -50px) scale(0); }
+          50% { opacity: 1; transform: translate(20px, -30px) scale(1.3); }
+          80% { opacity: 0.3; }
+          100% { opacity: 0; transform: translate(-15px, -60px) scale(0); }
         }
         @keyframes magicPulse {
           0%, 100% { opacity: 0.1; transform: scale(0.5); }
-          50% { opacity: 0.8; transform: scale(1.5); }
+          50% { opacity: 0.7; transform: scale(1.5); }
         }
       `
       document.head.appendChild(style)
@@ -47,10 +46,11 @@ export default function MagicParticles({ count = 50, className = '' }) {
       const delay = Math.random() * 8
 
       const goldVariants = [
-        'rgba(200, 169, 81, 0.8)',
-        'rgba(232, 212, 139, 0.6)',
-        'rgba(138, 112, 53, 0.7)',
-        'rgba(212, 165, 66, 0.5)',
+        'rgba(212, 168, 67, 0.8)',
+        'rgba(240, 208, 120, 0.6)',
+        'rgba(232, 160, 48, 0.7)',
+        'rgba(196, 149, 48, 0.5)',
+        'rgba(255, 220, 100, 0.4)',
       ]
       const color = goldVariants[Math.floor(Math.random() * goldVariants.length)]
 

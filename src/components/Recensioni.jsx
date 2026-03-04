@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollReveal from './ScrollReveal'
+import FloatingCandles from './FloatingCandles'
+import Fireflies from './Fireflies'
+import FloatingRunes from './FloatingRunes'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -15,7 +18,7 @@ const testimonials = [
 const press = [
   { name: 'Giornale di Vicenza', quote: 'La magia prende vita nelle sale del Castello di Thiene' },
   { name: 'Corriere Nazionale', quote: 'Un evento unico per i giovani appassionati del fantasy' },
-  { name: 'BergamoNews', quote: 'Palazzo Barbo si trasforma in un\'accademia di magia' },
+  { name: 'BergamoNews', quote: "Palazzo Barbo si trasforma in un'accademia di magia" },
   { name: 'La Voce di Bolzano', quote: 'Castel Mareccio ospita la Xmas Edition della Scuola di Magia' },
   { name: 'NordEst24', quote: 'Un progetto culturale che unisce teatro, educazione e fantasia' },
   { name: 'La Piazza Web', quote: 'Sold out per la Scuola di Magia: ragazzi da tutta Italia' },
@@ -26,7 +29,7 @@ export default function Recensioni() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.utils.toArray('.review-card').forEach((card, i) => {
+      gsap.utils.toArray('.review-card').forEach((card) => {
         gsap.fromTo(card,
           { opacity: 0, y: 50 },
           {
@@ -40,10 +43,13 @@ export default function Recensioni() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="recensioni" className="relative" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)', background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }}>
+    <section ref={sectionRef} id="recensioni" className="relative bg-great-hall section-glow-top" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
+      <FloatingCandles count={4} className="opacity-25" />
+      <Fireflies count={10} />
+      <FloatingRunes count={4} />
 
-      {/* Heading — right-aligned with giant quote mark */}
-      <div className="max-w-7xl mx-auto mb-20 sm:mb-28 px-6 sm:px-8 lg:px-12">
+      {/* Heading */}
+      <div className="relative z-10 max-w-[90rem] mx-auto mb-20 sm:mb-28 px-6 sm:px-8 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end gap-6">
           <span className="hidden lg:block text-gold-gradient" style={{
             fontFamily: '"Cinzel Decorative", serif',
@@ -54,7 +60,7 @@ export default function Recensioni() {
             <p style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)', marginBottom: '0.75rem' }}>
               Testimonianze
             </p>
-            <h2 className="text-gold-gradient" style={{
+            <h2 className="text-gold-gradient heading-glow" style={{
               fontSize: 'var(--fs-heading)',
               fontFamily: '"Cinzel Decorative", "Cinzel", Georgia, serif',
               fontWeight: 700, lineHeight: 1.1,
@@ -68,29 +74,36 @@ export default function Recensioni() {
         </div>
       </div>
 
-      {/* Testimonials — 1 featured large + 3 smaller, asymmetric */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 mb-24 sm:mb-32">
+      {/* Testimonials */}
+      <div className="relative z-10 max-w-[90rem] mx-auto px-6 sm:px-8 lg:px-12 mb-24 sm:mb-32">
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Featured testimonial — spans 7 cols */}
-          <div className="review-card lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col" style={{
-            opacity: 0, border: '1px solid rgba(200,169,81,0.1)', background: 'rgba(200,169,81,0.02)',
+          {/* Featured */}
+          <div className="review-card enchanted-card lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col" style={{
+            opacity: 0,
+            background: 'linear-gradient(165deg, rgba(237,224,200,0.05) 0%, rgba(212,168,67,0.02) 50%, rgba(10,10,18,0.5) 100%)',
+            border: '1px solid rgba(212,168,67,0.12)',
+            borderRadius: '60% 40% 55% 45% / 2% 2% 2% 2%',
+            position: 'relative',
           }}>
+            <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(212,168,67,0.3), transparent)' }} />
             <span className="block mb-6" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: '3.5rem', lineHeight: 1, color: 'var(--gold-dim)', opacity: 0.3 }}>"</span>
             <p className="flex-1 mb-8" style={{ fontStyle: 'italic', color: 'var(--parchment)', lineHeight: 2, fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)' }}>{testimonials[0].text}</p>
-            <div style={{ borderTop: '1px solid rgba(200,169,81,0.1)', paddingTop: '1rem' }}>
+            <div style={{ borderTop: '1px solid rgba(212,168,67,0.1)', paddingTop: '1rem' }}>
               <p style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--parchment)' }}>{testimonials[0].author}</p>
               <p style={{ fontSize: '0.75rem', color: 'var(--parchment-dim)', opacity: 0.4, marginTop: '0.2rem' }}>{testimonials[0].edition}</p>
             </div>
           </div>
 
-          {/* Remaining 3 — stacked in 5 cols */}
+          {/* Remaining 3 */}
           <div className="lg:col-span-5 space-y-6">
             {testimonials.slice(1).map((t, i) => (
               <div key={i} className="review-card p-6 sm:p-7 flex flex-col transition-all duration-300" style={{
-                opacity: 0, border: '1px solid rgba(200,169,81,0.06)', background: 'rgba(200,169,81,0.01)',
+                opacity: 0,
+                border: '1px solid rgba(212,168,67,0.06)',
+                background: 'linear-gradient(165deg, rgba(237,224,200,0.03) 0%, rgba(10,10,18,0.4) 100%)',
               }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.06)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.15)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(212,168,67,0.04)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
               >
                 <p className="flex-1 mb-4" style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', lineHeight: 1.8, fontSize: 'var(--fs-small)' }}>"{t.text}"</p>
                 <div>
@@ -103,11 +116,11 @@ export default function Recensioni() {
         </div>
       </div>
 
-      {/* Press — horizontal scroll strip */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      {/* Press */}
+      <div className="relative z-10 max-w-[90rem] mx-auto px-6 sm:px-8 lg:px-12">
         <ScrollReveal>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-10 h-px" style={{ background: 'rgba(200,169,81,0.3)' }} />
+            <div className="w-10 h-px" style={{ background: 'rgba(212,168,67,0.3)' }} />
             <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Rassegna Stampa</span>
           </div>
         </ScrollReveal>
@@ -116,7 +129,14 @@ export default function Recensioni() {
           <div className="flex gap-4" style={{ minWidth: 'max-content' }}>
             {press.map((item) => (
               <ScrollReveal key={item.name}>
-                <div className="p-5 sm:p-6 shrink-0" style={{ width: 'clamp(260px, 22vw, 320px)', border: '1px solid rgba(200,169,81,0.06)', background: 'rgba(200,169,81,0.01)' }}>
+                <div className="p-5 sm:p-6 shrink-0 transition-all duration-300" style={{
+                  width: 'clamp(260px, 22vw, 320px)',
+                  border: '1px solid rgba(212,168,67,0.06)',
+                  background: 'linear-gradient(165deg, rgba(237,224,200,0.03) 0%, rgba(10,10,18,0.3) 100%)',
+                }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.15)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.06)' }}
+                >
                   <h4 className="mb-2" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--gold)', letterSpacing: '0.05em' }}>{item.name}</h4>
                   <p style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.5 }}>"{item.quote}"</p>
                 </div>

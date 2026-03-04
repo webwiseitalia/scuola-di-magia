@@ -3,31 +3,35 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════
-   SCUOLA DI MAGIA — THEATRICAL DESIGN SYSTEM
+   SCUOLA DI MAGIA — HOGWARTS ENCHANTED DESIGN
    ═══════════════════════════════════════════ */
 
 :root {
-  /* The Palette of Shadows */
-  --void: #08070e;
-  --abyss: #0d0b18;
-  --night: #130f23;
-  --shadow: #1a1530;
-  --purple-deep: #2a1845;
-  --purple-mid: #3d2460;
-  --burgundy: #4a0e2b;
+  /* Castle Depths */
+  --void: #050508;
+  --abyss: #0a0a12;
+  --night: #0e0e1a;
+  --shadow: #141422;
+  --purple-deep: #1a1235;
+  --purple-mid: #2d1d4e;
+  --burgundy: #3d0a1f;
   --blood: #8B1A1A;
 
-  /* The Palette of Light */
-  --gold: #C8A951;
-  --gold-bright: #e8d48b;
+  /* Enchanted Golds */
+  --gold: #D4A843;
+  --gold-bright: #f0d078;
   --gold-dim: #8a7035;
-  --amber: #d4a542;
-  --parchment: #F5E6C8;
-  --parchment-dim: #c9b896;
-  --cream: #FBF3E4;
-  --white-ghost: rgba(255, 255, 255, 0.06);
+  --amber: #c49530;
+  --parchment: #EDE0C8;
+  --parchment-dim: #b8a882;
+  --cream: #FAF0DC;
+  --white-ghost: rgba(255, 255, 255, 0.04);
 
-  /* Typography scale — fluid */
+  /* Magical Accents */
+  --mystic-blue: #1a3a5c;
+  --candle-orange: #e8a030;
+
+  /* Typography scale */
   --fs-hero: clamp(3.5rem, 8vw, 9rem);
   --fs-display: clamp(2.5rem, 5vw, 5.5rem);
   --fs-heading: clamp(1.8rem, 3.5vw, 3.5rem);
@@ -35,7 +39,7 @@
   --fs-body: clamp(1rem, 1.2vw, 1.25rem);
   --fs-small: clamp(0.8rem, 0.9vw, 0.95rem);
 
-  /* Spacing — theatrical (not even) */
+  /* Spacing — theatrical */
   --space-theatrical: clamp(6rem, 12vh, 14rem);
   --space-act: clamp(4rem, 8vh, 10rem);
   --space-scene: clamp(2rem, 4vh, 5rem);
@@ -47,7 +51,7 @@
   }
 
   html {
-    scroll-behavior: auto; /* Lenis handles this */
+    scroll-behavior: auto;
   }
 
   body {
@@ -61,13 +65,13 @@
   }
 
   ::selection {
-    background-color: rgba(200, 169, 81, 0.25);
+    background-color: rgba(212, 168, 67, 0.25);
     color: var(--cream);
   }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--void); }
-  ::-webkit-scrollbar-thumb { background: rgba(200, 169, 81, 0.2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: rgba(212, 168, 67, 0.2); border-radius: 4px; }
 
   h1, h2, h3, h4 {
     font-family: 'Cinzel', Georgia, serif;
@@ -81,7 +85,7 @@
 }
 
 @layer components {
-  /* Gold gradient text — the signature */
+  /* Gold gradient text */
   .text-gold-gradient {
     background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 30%, var(--gold-bright) 50%, var(--gold) 70%, var(--gold-dim) 100%);
     -webkit-background-clip: text;
@@ -91,23 +95,56 @@
 
   /* Theatrical glass */
   .glass-dark {
-    background: rgba(13, 11, 24, 0.6);
+    background: rgba(10, 10, 18, 0.7);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(200, 169, 81, 0.08);
+    border: 1px solid rgba(212, 168, 67, 0.08);
   }
 
   .glass-gold {
-    background: rgba(200, 169, 81, 0.04);
+    background: rgba(212, 168, 67, 0.04);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(200, 169, 81, 0.12);
+    border: 1px solid rgba(212, 168, 67, 0.12);
   }
 
-  /* The primary CTA — a golden artifact */
+  /* Hogwarts parchment card */
+  .parchment-card {
+    background: linear-gradient(165deg, rgba(237, 224, 200, 0.06) 0%, rgba(212, 168, 67, 0.03) 50%, rgba(10, 10, 18, 0.4) 100%);
+    border: 1px solid rgba(212, 168, 67, 0.12);
+    position: relative;
+  }
+  .parchment-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    opacity: 0.4;
+  }
+
+  /* Castle stone card */
+  .stone-card {
+    background: linear-gradient(180deg, rgba(20, 20, 34, 0.8) 0%, rgba(10, 10, 18, 0.9) 100%);
+    border: 1px solid rgba(212, 168, 67, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .stone-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* The primary CTA — golden enchanted button */
   .btn-magic {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2.5rem;
+    padding: 0.9rem 2.2rem;
     background: linear-gradient(135deg, var(--gold-dim), var(--gold), var(--gold-bright), var(--gold));
     background-size: 300% 300%;
     color: var(--void);
@@ -117,6 +154,7 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     border: none;
+    border-radius: 100px;
     position: relative;
     overflow: hidden;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -125,12 +163,15 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     transform: translateX(-100%);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-magic:hover {
-    box-shadow: 0 0 40px rgba(200, 169, 81, 0.3), 0 0 80px rgba(200, 169, 81, 0.1);
+    box-shadow:
+      0 0 40px rgba(212, 168, 67, 0.35),
+      0 0 80px rgba(212, 168, 67, 0.15);
     transform: translateY(-2px);
     background-position: 100% 100%;
   }
@@ -143,7 +184,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2.5rem;
+    padding: 0.9rem 2.2rem;
     background: transparent;
     color: var(--gold);
     font-family: 'Cinzel', Georgia, serif;
@@ -151,7 +192,8 @@
     font-size: var(--fs-small);
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    border: 1px solid rgba(200, 169, 81, 0.3);
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    border-radius: 100px;
     position: relative;
     overflow: hidden;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -163,18 +205,19 @@
     left: 0;
     width: 100%;
     height: 0%;
-    background: rgba(200, 169, 81, 0.08);
+    border-radius: inherit;
+    background: rgba(212, 168, 67, 0.08);
     transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-ghost:hover {
-    border-color: rgba(200, 169, 81, 0.6);
-    box-shadow: 0 0 30px rgba(200, 169, 81, 0.1);
+    border-color: rgba(212, 168, 67, 0.6);
+    box-shadow: 0 0 30px rgba(212, 168, 67, 0.12);
   }
   .btn-ghost:hover::before {
     height: 100%;
   }
 
-  /* Divider — mystical */
+  /* Divider — mystical with stars */
   .divider-magic {
     display: flex;
     align-items: center;
@@ -189,18 +232,111 @@
     width: 60px;
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
+
+  /* Wand trail separator */
+  .wand-separator {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-dim) 20%, var(--gold) 50%, var(--gold-dim) 80%, transparent 100%);
+    position: relative;
+    opacity: 0.2;
+  }
+  .wand-separator::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.55rem;
+    color: var(--gold);
+    background: var(--void);
+    padding: 0 0.5rem;
+  }
 }
 
 @layer utilities {
+  /* ═══════ ORGANIC SHAPES ═══════ */
+
+  /* Blob border-radius variants */
+  .shape-blob-1 {
+    border-radius: 60% 40% 55% 45% / 55% 60% 40% 45%;
+  }
+  .shape-blob-2 {
+    border-radius: 45% 55% 40% 60% / 50% 45% 55% 50%;
+  }
+  .shape-blob-3 {
+    border-radius: 50% 50% 45% 55% / 60% 40% 55% 45%;
+  }
+
+  /* Clip-path angular cuts */
+  .clip-angle-left {
+    clip-path: polygon(4% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  .clip-angle-right {
+    clip-path: polygon(0% 0%, 96% 0%, 100% 100%, 0% 100%);
+  }
+  .clip-diagonal {
+    clip-path: polygon(0% 3%, 100% 0%, 100% 97%, 0% 100%);
+  }
+  .clip-organic {
+    clip-path: polygon(3% 0%, 97% 2%, 100% 96%, 2% 100%);
+  }
+
+  /* Subtle rotation tilts */
+  .tilt-left {
+    transform: rotate(-1.5deg);
+  }
+  .tilt-right {
+    transform: rotate(1.5deg);
+  }
+  .tilt-left-sm {
+    transform: rotate(-0.8deg);
+  }
+  .tilt-right-sm {
+    transform: rotate(0.8deg);
+  }
+
+  /* Diagonal section separators */
+  .diagonal-top::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -5%;
+    right: -5%;
+    height: 80px;
+    background: inherit;
+    clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
+    z-index: 3;
+  }
+  .diagonal-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: -5%;
+    right: -5%;
+    height: 80px;
+    background: var(--void);
+    clip-path: polygon(0% 0%, 100% 60%, 100% 100%, 0% 100%);
+    z-index: 3;
+  }
+
   .text-shadow-glow {
     text-shadow:
-      0 0 20px rgba(200, 169, 81, 0.4),
-      0 0 40px rgba(200, 169, 81, 0.2),
-      0 0 80px rgba(200, 169, 81, 0.1);
+      0 0 20px rgba(212, 168, 67, 0.5),
+      0 0 40px rgba(212, 168, 67, 0.25),
+      0 0 80px rgba(212, 168, 67, 0.12);
   }
 
   .text-shadow-subtle {
-    text-shadow: 0 0 30px rgba(200, 169, 81, 0.15);
+    text-shadow: 0 0 30px rgba(212, 168, 67, 0.15);
+  }
+
+  /* Candle flicker glow */
+  .candle-glow {
+    box-shadow:
+      0 0 15px rgba(232, 160, 48, 0.15),
+      0 0 30px rgba(232, 160, 48, 0.08),
+      0 0 60px rgba(212, 168, 67, 0.05);
   }
 
   /* Noise texture overlay */
@@ -211,7 +347,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.03;
+    opacity: 0.025;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1;
@@ -229,6 +365,184 @@
     pointer-events: none;
     z-index: 2;
   }
+
+  /* Hogwarts ambient backgrounds — enhanced with magical glow */
+  .bg-great-hall {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(232, 160, 48, 0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(26, 58, 92, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(212, 168, 67, 0.03) 0%, transparent 40%),
+      linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%);
+  }
+
+  .bg-dungeon {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(45, 29, 78, 0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 0% 50%, rgba(61, 10, 31, 0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 80%, rgba(26, 58, 92, 0.08) 0%, transparent 50%),
+      linear-gradient(180deg, var(--void) 0%, var(--night) 50%, var(--void) 100%);
+  }
+
+  .bg-tower {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(26, 58, 92, 0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 90% 10%, rgba(180, 140, 255, 0.04) 0%, transparent 40%),
+      linear-gradient(180deg, var(--void) 0%, var(--shadow) 50%, var(--void) 100%);
+  }
+}
+
+/* Floating candles animation */
+@keyframes candleFloat {
+  0%, 100% { transform: translateY(0px); opacity: 0.6; }
+  25% { transform: translateY(-8px); opacity: 0.9; }
+  50% { transform: translateY(-3px); opacity: 0.7; }
+  75% { transform: translateY(-12px); opacity: 1; }
+}
+
+@keyframes candleFlicker {
+  0%, 100% { opacity: 0.5; filter: blur(0px); }
+  20% { opacity: 0.8; filter: blur(0.5px); }
+  40% { opacity: 0.6; filter: blur(0px); }
+  60% { opacity: 0.9; filter: blur(0.3px); }
+  80% { opacity: 0.4; filter: blur(0px); }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* Enchanted glow pulse for buttons */
+@keyframes spellGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(212, 168, 67, 0.15); }
+  50% { box-shadow: 0 0 25px rgba(212, 168, 67, 0.4), 0 0 50px rgba(212, 168, 67, 0.2), 0 0 80px rgba(232, 160, 48, 0.1); }
+}
+
+.btn-magic {
+  animation: spellGlow 4s ease-in-out infinite;
+}
+
+/* Mysterious fog drift */
+@keyframes fogDrift {
+  0% { transform: translateX(-3%) scaleY(1); opacity: 0.25; }
+  50% { transform: translateX(3%) scaleY(1.05); opacity: 0.4; }
+  100% { transform: translateX(-3%) scaleY(1); opacity: 0.25; }
+}
+
+/* Shimmer animation for borders */
+@keyframes borderShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ═══════ ENCHANTED CARD EFFECTS ═══════ */
+
+/* Animated border shimmer on cards */
+.enchanted-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.enchanted-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.6), rgba(255, 220, 100, 0.8), rgba(212, 168, 67, 0.6), transparent);
+  animation: cardShimmer 4s ease-in-out infinite;
+  z-index: 2;
+}
+
+.enchanted-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(270deg, transparent, rgba(212, 168, 67, 0.4), rgba(255, 220, 100, 0.6), rgba(212, 168, 67, 0.4), transparent);
+  animation: cardShimmer 4s ease-in-out infinite 2s;
+  z-index: 2;
+}
+
+@keyframes cardShimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+/* Glowing heading effect */
+.heading-glow {
+  text-shadow:
+    0 0 20px rgba(212, 168, 67, 0.4),
+    0 0 40px rgba(212, 168, 67, 0.2),
+    0 0 80px rgba(212, 168, 67, 0.1);
+  animation: headingPulse 4s ease-in-out infinite;
+}
+
+@keyframes headingPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 20px rgba(212, 168, 67, 0.3),
+      0 0 40px rgba(212, 168, 67, 0.15);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow:
+      0 0 30px rgba(212, 168, 67, 0.5),
+      0 0 60px rgba(212, 168, 67, 0.25),
+      0 0 100px rgba(212, 168, 67, 0.12);
+    filter: brightness(1.1);
+  }
+}
+
+/* Section transition glow */
+.section-glow-top {
+  position: relative;
+}
+.section-glow-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.3), rgba(212, 168, 67, 0.5), rgba(212, 168, 67, 0.3), transparent);
+  z-index: 5;
+}
+.section-glow-top::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 80px;
+  background: radial-gradient(ellipse at top, rgba(212, 168, 67, 0.06) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Enchanted image frames */
+.enchanted-frame {
+  position: relative;
+}
+.enchanted-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--void), var(--void)) padding-box,
+    linear-gradient(135deg, rgba(212, 168, 67, 0.3), transparent 40%, transparent 60%, rgba(212, 168, 67, 0.3)) border-box;
+  pointer-events: none;
+  animation: framePulse 5s ease-in-out infinite;
+}
+
+@keyframes framePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 /* Hide custom cursor on touch devices */

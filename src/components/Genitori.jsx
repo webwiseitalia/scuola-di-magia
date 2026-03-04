@@ -3,23 +3,27 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 import ScrollReveal from './ScrollReveal'
+import FloatingCandles from './FloatingCandles'
+import Fireflies from './Fireflies'
+import MagicDivider from './MagicDivider'
+import FloatingRunes from './FloatingRunes'
 import foto9 from '../assets/foto/foto-9.webp'
 import foto11 from '../assets/foto/foto-11.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const pillars = [
-  { title: 'Sicurezza e Affidabilità', desc: 'Organizzato dall\'Associazione Culturale Caraval Spettacoli, attiva da oltre 10 anni con più di 100 eventi. Staff di 25 professionisti — attori, educatori, scenografi. Associazione No Profit.' },
-  { title: 'Valore Educativo', desc: 'Non solo divertimento. Laboratori artistici, visite guidate ai luoghi storici, attività che stimolano creatività, collaborazione, lettura e curiosità.' },
-  { title: 'Tutto Incluso', desc: 'Soggiorno di 3 giorni nel castello, tutte le attività e spettacoli, materiali e oggetti di scena, assistenza continua. Nessuna sorpresa.' },
+  { title: 'Sicurezza e Affidabilità', desc: "Organizzato dall'Associazione Culturale Caraval Spettacoli, attiva da oltre 10 anni con più di 100 eventi. Staff di 25 professionisti — attori, educatori, scenografi. Associazione No Profit.", icon: '🛡️' },
+  { title: 'Valore Educativo', desc: 'Non solo divertimento. Laboratori artistici, visite guidate ai luoghi storici, attività che stimolano creatività, collaborazione, lettura e curiosità.', icon: '📚' },
+  { title: 'Tutto Incluso', desc: 'Soggiorno di 3 giorni nel castello, tutte le attività e spettacoli, materiali e oggetti di scena, assistenza continua. Nessuna sorpresa.', icon: '🏰' },
 ]
 
 const faqs = [
   { q: 'Che età deve avere mio figlio?', a: 'Dai 6 ai 14 anni, dalla prima elementare alla terza media. È necessario saper scrivere per trascrivere le formule magiche.' },
-  { q: 'Mio figlio dormirà nel castello?', a: 'Sì! I dormitori sono allestiti nella location, con assistenza continua dello staff per l\'intero soggiorno.' },
+  { q: 'Mio figlio dormirà nel castello?', a: "Sì! I dormitori sono allestiti nella location, con assistenza continua dello staff per l'intero soggiorno." },
   { q: 'Come funzionano gli anni accademici?', a: 'Chi partecipa per la prima volta è al I anno. Chi torna avanza (fino al V), con attività progressivamente diverse e più complesse.' },
   { q: 'Posso iscrivere più figli?', a: 'Certamente! Con la promozione Biglietto Famiglia: secondo figlio -€30, terzo figlio -€60.' },
-  { q: 'L\'evento è sold out, cosa faccio?', a: 'È possibile inserirsi in lista d\'attesa contattandoci. In caso di rinunce, i posti vengono riassegnati in ordine di lista.' },
+  { q: "L'evento è sold out, cosa faccio?", a: "È possibile inserirsi in lista d'attesa contattandoci. In caso di rinunce, i posti vengono riassegnati in ordine di lista." },
   { q: 'Quanto costa?', a: 'Circa €300 a partecipante, tutto incluso: soggiorno, attività, intrattenimento, spettacoli e materiali.' },
 ]
 
@@ -38,7 +42,7 @@ function FAQItem({ faq }) {
   }
 
   return (
-    <div style={{ borderBottom: '1px solid rgba(200,169,81,0.06)' }}>
+    <div style={{ borderBottom: '1px solid rgba(212,168,67,0.06)' }}>
       <button onClick={toggle} className="w-full flex items-center justify-between py-5 text-left">
         <span className="pr-4 transition-colors duration-300" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: open ? 'var(--gold)' : 'var(--parchment)', letterSpacing: '0.02em' }}>
           {faq.q}
@@ -67,10 +71,13 @@ export default function Genitori() {
   }, [])
 
   return (
-    <section id="genitori" className="relative" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)', background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }}>
+    <section id="genitori" className="relative bg-dungeon section-glow-top" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
+      <FloatingCandles count={5} className="opacity-30" />
+      <Fireflies count={10} />
+      <FloatingRunes count={5} />
 
-      {/* Heading — left aligned with photos on right */}
-      <div className="max-w-7xl mx-auto mb-20 sm:mb-28" style={{ paddingLeft: 'clamp(2rem, 8vw, 10rem)', paddingRight: 'clamp(2rem, 4vw, 4rem)' }}>
+      {/* Heading */}
+      <div className="relative z-10 max-w-[90rem] mx-auto mb-20 sm:mb-28 px-6 sm:px-10 lg:px-16">
         <div className="grid lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-6">
             <div className="flex items-start gap-6 mb-6">
@@ -82,7 +89,7 @@ export default function Genitori() {
                 <p style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)', marginBottom: '0.75rem' }}>
                   Per le famiglie
                 </p>
-                <h2 ref={headingRef} className="text-gold-gradient" style={{
+                <h2 ref={headingRef} className="text-gold-gradient heading-glow" style={{
                   fontSize: 'var(--fs-heading)',
                   fontFamily: '"Cinzel Decorative", "Cinzel", Georgia, serif',
                   fontWeight: 700, lineHeight: 1.1,
@@ -96,11 +103,11 @@ export default function Genitori() {
             </p>
           </div>
           <ScrollReveal className="lg:col-span-6" from="right" delay={0.15}>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="overflow-hidden" style={{ border: '1px solid rgba(200,169,81,0.08)' }}>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="overflow-hidden shape-blob-3" style={{ transform: 'rotate(1deg)' }}>
                 <img src={foto9} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-1000" />
               </div>
-              <div className="overflow-hidden mt-8" style={{ border: '1px solid rgba(200,169,81,0.08)' }}>
+              <div className="overflow-hidden mt-12 clip-angle-right" style={{ transform: 'rotate(-1deg)' }}>
                 <img src={foto11} alt="" className="w-full aspect-[3/4] object-cover hover:scale-105 transition-transform duration-1000" />
               </div>
             </div>
@@ -108,16 +115,21 @@ export default function Genitori() {
         </div>
       </div>
 
-      {/* Pillars — horizontal list, not cards grid */}
-      <div className="max-w-7xl mx-auto mb-24 sm:mb-32" style={{ paddingLeft: 'clamp(2rem, 6vw, 8rem)', paddingRight: 'clamp(2rem, 6vw, 8rem)' }}>
-        <div className="grid lg:grid-cols-3 gap-0 lg:gap-0">
+      {/* Pillars — with magical icons */}
+      <div className="relative z-10 max-w-[90rem] mx-auto mb-24 sm:mb-32 px-6 sm:px-10 lg:px-16">
+        <div className="grid lg:grid-cols-3 gap-4">
           {pillars.map((p, i) => (
             <ScrollReveal key={p.title} delay={i * 0.1}>
-              <div className="py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0" style={{
-                borderTop: '2px solid rgba(200,169,81,0.15)',
-                borderRight: i < 2 ? '1px solid rgba(200,169,81,0.06)' : 'none',
-              }}>
-                <span className="block mb-4" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>0{i + 1}</span>
+              <div className="p-8 h-full transition-all duration-300" style={{
+                background: 'linear-gradient(165deg, rgba(237,224,200,0.04) 0%, rgba(10,10,18,0.5) 100%)',
+                border: '1px solid rgba(212,168,67,0.08)',
+                borderTop: '2px solid rgba(212,168,67,0.15)',
+                position: 'relative',
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.15)'; e.currentTarget.style.boxShadow = '0 0 25px rgba(212,168,67,0.04)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(212,168,67,0.08)'; e.currentTarget.style.borderTopColor = 'rgba(212,168,67,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+              >
+                <span className="block mb-4 text-2xl">{p.icon}</span>
                 <h3 className="mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: '1.05rem', color: 'var(--parchment)' }}>{p.title}</h3>
                 <p style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', lineHeight: 1.8, opacity: 0.65 }}>{p.desc}</p>
               </div>
@@ -126,8 +138,10 @@ export default function Genitori() {
         </div>
       </div>
 
-      {/* FAQ — 5/7 split, text left narrow, FAQ right wide */}
-      <div className="max-w-7xl mx-auto" style={{ paddingLeft: 'clamp(2rem, 8vw, 10rem)', paddingRight: 'clamp(2rem, 4vw, 4rem)' }}>
+      <MagicDivider symbol="📜" className="max-w-3xl mx-auto px-8" />
+
+      {/* FAQ */}
+      <div className="relative z-10 max-w-[90rem] mx-auto px-6 sm:px-10 lg:px-16">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
           <ScrollReveal className="lg:col-span-4" from="left">
             <div className="lg:sticky lg:top-32">
@@ -136,14 +150,14 @@ export default function Genitori() {
                 Le risposte alle domande più comuni dei genitori.
               </p>
               <div className="mt-6 flex items-center gap-4">
-                <div className="w-10 h-px" style={{ background: 'rgba(200,169,81,0.3)' }} />
+                <div className="w-10 h-px" style={{ background: 'rgba(212,168,67,0.3)' }} />
                 <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.15em', color: 'var(--gold-dim)' }}>6 domande</span>
               </div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal className="lg:col-span-8" from="right" delay={0.1}>
-            <div style={{ borderTop: '1px solid rgba(200,169,81,0.06)' }}>
+            <div style={{ borderTop: '1px solid rgba(212,168,67,0.06)' }}>
               {faqs.map((faq, i) => <FAQItem key={i} faq={faq} />)}
             </div>
           </ScrollReveal>
