@@ -1,6 +1,11 @@
-import SectionTitle from './SectionTitle'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SplitType from 'split-type'
 import ScrollReveal from './ScrollReveal'
 import MagicParticles from './MagicParticles'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const editions = [
   {
@@ -24,69 +29,115 @@ const editions = [
   },
 ]
 
-const statusStyles = {
-  available: { label: 'Disponibile', bg: 'rgba(34,197,94,0.1)', color: '#4ade80', border: 'rgba(34,197,94,0.25)' },
-  few: { label: 'Ultimi Posti', bg: 'rgba(234,179,8,0.1)', color: '#facc15', border: 'rgba(234,179,8,0.25)' },
-  soldout: { label: 'Sold Out', bg: 'rgba(239,68,68,0.08)', color: '#f87171', border: 'rgba(239,68,68,0.2)' },
+const statusMap = {
+  available: { label: 'Disponibile', color: '#4ade80', bg: 'rgba(34,197,94,0.08)', border: 'rgba(34,197,94,0.2)' },
+  few: { label: 'Ultimi Posti', color: '#facc15', bg: 'rgba(234,179,8,0.08)', border: 'rgba(234,179,8,0.2)' },
+  soldout: { label: 'Sold Out', color: '#f87171', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.15)' },
 }
 
 const promos = [
-  { symbol: '◈', title: 'Sostenitore', price: '€300', desc: 'Gadget personalizzato + menzione nei ringraziamenti ufficiali + riconoscimento "Famiglia di Maghi".' },
-  { symbol: '✦', title: 'Primo della Classe', price: 'Sconto', desc: 'Per chi ha una media del 9+ nell\'ultima pagella. La magia premia lo studio!' },
-  { symbol: '⟐', title: 'Biglietto Famiglia', price: 'Fino a -€60', desc: 'Secondo figlio: -€30. Terzo figlio: -€60. Più maghi in famiglia, più si risparmia!' },
+  { title: 'Sostenitore', price: '€300', desc: 'Gadget personalizzato + menzione nei ringraziamenti ufficiali + riconoscimento "Famiglia di Maghi".' },
+  { title: 'Primo della Classe', price: 'Sconto', desc: 'Per chi ha una media del 9+ nell\'ultima pagella. La magia premia lo studio!' },
+  { title: 'Biglietto Famiglia', price: 'Fino a -€60', desc: 'Secondo figlio: -€30. Terzo figlio: -€60. Più maghi in famiglia, più si risparmia!' },
 ]
 
 export default function DateIscrizioni() {
-  return (
-    <section id="iscrizioni" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, var(--void) 0%, var(--shadow) 30%, var(--purple-deep) 50%, var(--shadow) 70%, var(--void) 100%)' }} />
-      <MagicParticles count={25} />
+  const sectionRef = useRef(null)
+  const headingRef = useRef(null)
+  const priceRef = useRef(null)
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionTitle title="Date e Iscrizioni" subtitle="Le edizioni vanno storicamente sold out. Scegli la tua e prenota il tuo posto." />
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const heading = headingRef.current
+      if (heading) {
+        const split = new SplitType(heading, { types: 'chars' })
+        gsap.set(split.chars, { opacity: 0, y: 50, scale: 0.8 })
+        gsap.to(split.chars, {
+          opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.02, ease: 'back.out(2)',
+          scrollTrigger: { trigger: heading, start: 'top 82%', once: true },
+        })
+      }
+
+      // Price counter animation
+      const priceEl = priceRef.current
+      if (priceEl) {
+        gsap.fromTo(priceEl,
+          { opacity: 0, scale: 0.5 },
+          {
+            opacity: 1, scale: 1, duration: 1.2, ease: 'elastic.out(1, 0.6)',
+            scrollTrigger: { trigger: priceEl, start: 'top 80%', once: true },
+          }
+        )
+      }
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section ref={sectionRef} id="iscrizioni" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)', background: 'linear-gradient(180deg, var(--void) 0%, var(--shadow) 50%, var(--void) 100%)' }}>
+      <MagicParticles count={20} />
+
+      {/* Header — centered this time for contrast with prev sections */}
+      <div className="relative z-10 text-center mb-16 sm:mb-24 px-6">
+        <span className="hidden sm:block text-gold-gradient mx-auto mb-4" style={{
+          fontFamily: '"Cinzel Decorative", serif', fontSize: 'clamp(4rem, 8vw, 7rem)',
+          fontWeight: 700, lineHeight: 0.85, opacity: 0.1,
+        }}>03</span>
+        <p style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)', marginBottom: '0.75rem' }}>
+          Prenota il tuo posto
+        </p>
+        <h2 ref={headingRef} className="text-gold-gradient" style={{
+          fontSize: 'var(--fs-heading)',
+          fontFamily: '"Cinzel Decorative", "Cinzel", Georgia, serif',
+          fontWeight: 700, lineHeight: 1.1,
+        }}>
+          Date e Iscrizioni
+        </h2>
+        <p className="mt-5 mx-auto" style={{ color: 'var(--parchment-dim)', maxWidth: '540px', lineHeight: 1.8 }}>
+          Le edizioni vanno storicamente sold out. Scegli la tua e prenota il tuo posto.
+        </p>
 
         {/* Urgency */}
-        <ScrollReveal className="mb-14 sm:mb-20">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-5 py-2" style={{ border: '1px solid rgba(139,26,26,0.3)', background: 'rgba(139,26,26,0.08)', fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: '#f87171', letterSpacing: '0.15em' }}>
-              <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-              Posti limitati — Storicamente Sold Out
-            </span>
-          </div>
-        </ScrollReveal>
+        <div className="mt-8">
+          <span className="inline-flex items-center gap-2 px-5 py-2" style={{ border: '1px solid rgba(239,68,68,0.25)', background: 'rgba(239,68,68,0.06)', fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: '#f87171', letterSpacing: '0.12em' }}>
+            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+            Posti limitati — Storicamente Sold Out
+          </span>
+        </div>
+      </div>
 
-        {/* Editions */}
-        <div className="space-y-6 sm:space-y-8 mb-20 sm:mb-28">
-          {editions.map((ed, i) => (
+      {/* Edition cards — staggered widths */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 space-y-6 mb-24 sm:mb-32">
+        {editions.map((ed, i) => {
+          const offsets = ['ml-0', 'sm:ml-8 lg:ml-16', 'sm:ml-4 lg:ml-8']
+          return (
             <ScrollReveal key={ed.location} delay={i * 0.1}>
-              <div className="glass-dark overflow-hidden" style={{ borderLeft: '2px solid rgba(200,169,81,0.15)' }}>
-                <div className="px-6 sm:px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3" style={{ borderBottom: '1px solid rgba(200,169,81,0.06)' }}>
-                  <div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h3 style={{ fontFamily: '"Cinzel", serif', fontSize: '1.2rem', color: 'var(--gold)' }}>{ed.location}</h3>
-                      <span className="px-2.5 py-0.5 text-xs tracking-[0.15em] uppercase" style={{ fontFamily: '"Cinzel", serif', color: 'var(--gold-dim)', border: '1px solid rgba(200,169,81,0.15)', background: 'rgba(200,169,81,0.04)' }}>{ed.tag}</span>
-                    </div>
-                    <p className="mt-1" style={{ fontSize: 'var(--fs-small)', color: 'var(--parchment-dim)', opacity: 0.5 }}>{ed.city}</p>
+              <div className={offsets[i]} style={{ background: 'rgba(13,11,24,0.5)', backdropFilter: 'blur(8px)', border: '1px solid rgba(200,169,81,0.08)' }}>
+                <div className="px-6 sm:px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2" style={{ borderBottom: '1px solid rgba(200,169,81,0.06)' }}>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h3 style={{ fontFamily: '"Cinzel", serif', fontSize: '1.15rem', color: 'var(--gold)' }}>{ed.location}</h3>
+                    <span className="px-2.5 py-0.5 text-xs tracking-[0.15em] uppercase" style={{ fontFamily: '"Cinzel", serif', color: 'var(--gold-dim)', border: '1px solid rgba(200,169,81,0.15)' }}>{ed.tag}</span>
                   </div>
+                  <span style={{ fontSize: 'var(--fs-small)', color: 'var(--parchment-dim)', opacity: 0.4 }}>{ed.city}</span>
                 </div>
 
                 {ed.dates.map((date) => {
-                  const s = statusStyles[date.status]
+                  const s = statusMap[date.status]
                   return (
-                    <div key={date.range} className="px-6 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300" style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}
+                    <div key={date.range} className="px-6 sm:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300" style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}
                       onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,169,81,0.02)' }}
                       onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
                         <span style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.1rem', color: 'var(--parchment)' }}>{date.range}</span>
-                        {date.note && <span style={{ fontSize: 'var(--fs-small)', color: 'var(--parchment-dim)', opacity: 0.5 }}>{date.note}</span>}
+                        {date.note && <span style={{ fontSize: 'var(--fs-small)', color: 'var(--parchment-dim)', opacity: 0.4 }}>{date.note}</span>}
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="px-3 py-1 text-xs tracking-[0.1em]" style={{ fontFamily: '"Cinzel", serif', color: s.color, background: s.bg, border: `1px solid ${s.border}` }}>{s.label}</span>
                         {date.status !== 'soldout' ? (
-                          <a href="#contatti" className="btn-magic" style={{ padding: '0.5rem 1.5rem', fontSize: '0.7rem' }}>Iscriviti</a>
+                          <a href="#contatti" className="btn-magic" style={{ padding: '0.45rem 1.2rem', fontSize: '0.65rem' }}>Iscriviti</a>
                         ) : (
-                          <span className="px-4 py-2 text-xs tracking-[0.1em]" style={{ fontFamily: '"Cinzel", serif', color: 'var(--parchment-dim)', opacity: 0.3, border: '1px solid rgba(255,255,255,0.05)' }}>Esaurito</span>
+                          <span className="px-3 py-1.5 text-xs" style={{ fontFamily: '"Cinzel", serif', color: 'var(--parchment-dim)', opacity: 0.3, border: '1px solid rgba(255,255,255,0.05)' }}>Esaurito</span>
                         )}
                       </div>
                     </div>
@@ -94,43 +145,48 @@ export default function DateIscrizioni() {
                 })}
               </div>
             </ScrollReveal>
-          ))}
-        </div>
+          )
+        })}
+      </div>
 
-        {/* Price */}
-        <ScrollReveal>
-          <div className="text-center mb-14">
-            <p className="mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Quota di Partecipazione</p>
-            <div className="flex items-baseline justify-center gap-2">
-              <span className="text-gold-gradient" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700 }}>€300</span>
-              <span style={{ color: 'var(--parchment-dim)', opacity: 0.5 }}>/ partecipante</span>
-            </div>
-            <p className="mt-3 max-w-lg mx-auto" style={{ color: 'var(--parchment-dim)', opacity: 0.6, fontSize: 'var(--fs-small)' }}>
-              Tutto incluso: soggiorno nel castello per 3 giorni, tutte le attività, intrattenimento, spettacoli e materiali.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* Promos */}
-        <div className="grid sm:grid-cols-3 gap-px" style={{ background: 'rgba(200,169,81,0.06)' }}>
-          {promos.map((p, i) => (
-            <ScrollReveal key={p.title} delay={i * 0.1} from="fade">
-              <div className="p-8 sm:p-10 text-center transition-all duration-500" style={{ background: 'var(--void)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,169,81,0.03)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--void)' }}
-              >
-                <span className="block mb-4" style={{ fontSize: '1.5rem', color: 'var(--gold-dim)' }}>{p.symbol}</span>
-                <h4 style={{ fontFamily: '"Cinzel", serif', fontSize: '1rem', color: 'var(--parchment)', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>{p.title}</h4>
-                <span className="block mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', color: 'var(--gold-dim)' }}>{p.price}</span>
-                <p style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', lineHeight: 1.7, opacity: 0.6 }}>{p.desc}</p>
-              </div>
+      {/* Price — massive, left-aligned with promos right */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="lg:col-span-5">
+            <ScrollReveal from="left">
+              <p className="mb-3" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Quota di Partecipazione</p>
+              <span ref={priceRef} className="block text-gold-gradient" style={{
+                fontFamily: '"Cinzel Decorative", serif',
+                fontSize: 'clamp(4rem, 10vw, 8rem)',
+                fontWeight: 700, lineHeight: 0.9, opacity: 0,
+              }}>€300</span>
+              <span className="block mt-2" style={{ color: 'var(--parchment-dim)', opacity: 0.4, fontStyle: 'italic' }}>/ partecipante — tutto incluso</span>
+              <p className="mt-6 max-w-sm" style={{ color: 'var(--parchment-dim)', opacity: 0.5, fontSize: 'var(--fs-small)', lineHeight: 1.8 }}>
+                Soggiorno nel castello per 3 giorni, tutte le attività, intrattenimento, spettacoli e materiali.
+              </p>
             </ScrollReveal>
-          ))}
+          </div>
+
+          <div className="lg:col-span-7 space-y-5">
+            {promos.map((p, i) => (
+              <ScrollReveal key={p.title} delay={i * 0.1} from="right">
+                <div className="flex gap-6 p-6 sm:p-8 transition-all duration-300" style={{ border: '1px solid rgba(200,169,81,0.06)', background: 'rgba(200,169,81,0.01)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.06)' }}
+                >
+                  <span className="shrink-0" style={{ fontFamily: '"Cinzel", serif', fontSize: '0.8rem', color: 'var(--gold)', lineHeight: 2 }}>{p.price}</span>
+                  <div>
+                    <h4 className="mb-1" style={{ fontFamily: '"Cinzel", serif', fontSize: '1rem', color: 'var(--parchment)' }}>{p.title}</h4>
+                    <p style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', lineHeight: 1.7, opacity: 0.6 }}>{p.desc}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
 
-        {/* Age note */}
-        <ScrollReveal className="mt-10 text-center">
-          <p style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.5 }}>
+        <ScrollReveal className="mt-12">
+          <p className="max-w-lg" style={{ color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.4 }}>
             Età: 6-14 anni (dalla prima elementare). Requisito: saper scrivere per trascrivere le formule magiche.
           </p>
         </ScrollReveal>

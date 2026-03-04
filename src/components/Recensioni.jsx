@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SectionTitle from './SectionTitle'
 import ScrollReveal from './ScrollReveal'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -23,68 +22,107 @@ const press = [
 ]
 
 export default function Recensioni() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.review-card').forEach((card, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+          }
+        )
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="recensioni" className="relative overflow-hidden" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)' }}>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }} />
+    <section ref={sectionRef} id="recensioni" className="relative" style={{ paddingTop: 'var(--space-theatrical)', paddingBottom: 'var(--space-theatrical)', background: 'linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%)' }}>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle title="Dicono di Noi" subtitle="Le parole di chi ha vissuto la magia." />
+      {/* Heading — right-aligned with giant quote mark */}
+      <div className="max-w-7xl mx-auto mb-20 sm:mb-28 px-6 sm:px-8 lg:px-12">
+        <div className="flex flex-col lg:flex-row lg:items-end gap-6">
+          <span className="hidden lg:block text-gold-gradient" style={{
+            fontFamily: '"Cinzel Decorative", serif',
+            fontSize: 'clamp(8rem, 15vw, 14rem)',
+            fontWeight: 700, lineHeight: 0.7, opacity: 0.06,
+          }}>"</span>
+          <div className="lg:ml-auto lg:text-right max-w-xl">
+            <p style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)', marginBottom: '0.75rem' }}>
+              Testimonianze
+            </p>
+            <h2 className="text-gold-gradient" style={{
+              fontSize: 'var(--fs-heading)',
+              fontFamily: '"Cinzel Decorative", "Cinzel", Georgia, serif',
+              fontWeight: 700, lineHeight: 1.1,
+            }}>
+              Dicono di Noi
+            </h2>
+            <p className="mt-5" style={{ color: 'var(--parchment-dim)', lineHeight: 1.8 }}>
+              Le parole di chi ha vissuto la magia.
+            </p>
+          </div>
+        </div>
+      </div>
 
-        {/* Testimonials — offset grid */}
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-20 sm:mb-28">
-          {testimonials.map((t, i) => (
-            <ScrollReveal key={i} delay={i * 0.1} from={i % 2 === 0 ? 'left' : 'right'}>
-              <div
-                className="p-8 sm:p-10 h-full flex flex-col transition-all duration-500"
-                style={{
-                  background: 'var(--void)',
-                  border: '1px solid rgba(200,169,81,0.06)',
-                  marginTop: i % 2 === 1 ? '2rem' : '0',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(200,169,81,0.04)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+      {/* Testimonials — 1 featured large + 3 smaller, asymmetric */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 mb-24 sm:mb-32">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
+          {/* Featured testimonial — spans 7 cols */}
+          <div className="review-card lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col" style={{
+            opacity: 0, border: '1px solid rgba(200,169,81,0.1)', background: 'rgba(200,169,81,0.02)',
+          }}>
+            <span className="block mb-6" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: '3.5rem', lineHeight: 1, color: 'var(--gold-dim)', opacity: 0.3 }}>"</span>
+            <p className="flex-1 mb-8" style={{ fontStyle: 'italic', color: 'var(--parchment)', lineHeight: 2, fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)' }}>{testimonials[0].text}</p>
+            <div style={{ borderTop: '1px solid rgba(200,169,81,0.1)', paddingTop: '1rem' }}>
+              <p style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--parchment)' }}>{testimonials[0].author}</p>
+              <p style={{ fontSize: '0.75rem', color: 'var(--parchment-dim)', opacity: 0.4, marginTop: '0.2rem' }}>{testimonials[0].edition}</p>
+            </div>
+          </div>
+
+          {/* Remaining 3 — stacked in 5 cols */}
+          <div className="lg:col-span-5 space-y-6">
+            {testimonials.slice(1).map((t, i) => (
+              <div key={i} className="review-card p-6 sm:p-7 flex flex-col transition-all duration-300" style={{
+                opacity: 0, border: '1px solid rgba(200,169,81,0.06)', background: 'rgba(200,169,81,0.01)',
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.15)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,81,0.06)' }}
               >
-                {/* Quote mark */}
-                <span className="block mb-6" style={{ fontFamily: '"Cinzel Decorative", serif', fontSize: '3rem', lineHeight: 1, color: 'var(--gold-dim)', opacity: 0.3 }}>"</span>
-
-                <p className="flex-1 mb-8" style={{ fontStyle: 'italic', color: 'var(--parchment)', lineHeight: 1.9, fontSize: '1.05rem' }}>
-                  {t.text}
-                </p>
-
-                <div style={{ borderTop: '1px solid rgba(200,169,81,0.08)', paddingTop: '1rem' }}>
-                  <p style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--parchment)', letterSpacing: '0.05em' }}>
-                    {t.author}
-                  </p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--parchment-dim)', opacity: 0.4, marginTop: '0.25rem' }}>
-                    {t.edition}
-                  </p>
+                <p className="flex-1 mb-4" style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', lineHeight: 1.8, fontSize: 'var(--fs-small)' }}>"{t.text}"</p>
+                <div>
+                  <p style={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', color: 'var(--parchment)' }}>{t.author}</p>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--parchment-dim)', opacity: 0.35, marginTop: '0.15rem' }}>{t.edition}</p>
                 </div>
               </div>
-            </ScrollReveal>
-          ))}
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* Press */}
+      {/* Press — horizontal scroll strip */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <ScrollReveal>
-          <div className="divider-magic mb-10">
-            <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>
-              Rassegna Stampa
-            </span>
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-10 h-px" style={{ background: 'rgba(200,169,81,0.3)' }} />
+            <span style={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold-dim)' }}>Rassegna Stampa</span>
           </div>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'rgba(200,169,81,0.04)' }}>
-          {press.map((item, i) => (
-            <ScrollReveal key={item.name} delay={i * 0.05} from="fade">
-              <div className="p-6 sm:p-8 text-center transition-all duration-300" style={{ background: 'var(--void)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,169,81,0.02)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--void)' }}
-              >
-                <h4 className="mb-2" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--gold)', letterSpacing: '0.05em' }}>{item.name}</h4>
-                <p style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.5 }}>"{item.quote}"</p>
-              </div>
-            </ScrollReveal>
-          ))}
+        <div className="overflow-x-auto pb-4" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex gap-4" style={{ minWidth: 'max-content' }}>
+            {press.map((item) => (
+              <ScrollReveal key={item.name}>
+                <div className="p-5 sm:p-6 shrink-0" style={{ width: 'clamp(260px, 22vw, 320px)', border: '1px solid rgba(200,169,81,0.06)', background: 'rgba(200,169,81,0.01)' }}>
+                  <h4 className="mb-2" style={{ fontFamily: '"Cinzel", serif', fontSize: 'var(--fs-small)', color: 'var(--gold)', letterSpacing: '0.05em' }}>{item.name}</h4>
+                  <p style={{ fontStyle: 'italic', color: 'var(--parchment-dim)', fontSize: 'var(--fs-small)', opacity: 0.5 }}>"{item.quote}"</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
